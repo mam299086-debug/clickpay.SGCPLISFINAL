@@ -3637,10 +3637,10 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
  const money=v=>(num(v)).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})+' ETB';
  const esc=v=>String(v==null?'':v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  const plans={weekly:{days:7,price:3000,name:'Weekly / ሳምንታዊ'},vip_weekly:{days:7,price:5000,name:'VIP Weekly / ቪአይፒ ሳምንታዊ'},monthly:{days:30,price:12000,name:'Monthly / ወርሃዊ'},quarterly:{days:90,price:38000,name:'Quarterly / 3 ወር'},annual:{days:365,price:140000,name:'Annual / ዓመታዊ'}};
- const allPages=['dashboard','production','sales','expenses','stock','reports','wallet','accountant','planner','cutting','sewing','products','orders','customers','suppliers','employees','settings'];
+ const allPages=['dashboard','production','sales','expenses','stock','reports','wallet','accountant','planner','cutting','sewing','packing','finished','products','orders','customers','suppliers','employees','settings'];
  function planKey(){return String(appState?.subscription?.plan||'weekly').toLowerCase()}
  function tier(p){if(p==='vip_weekly'||p==='annual')return 4;if(p==='quarterly')return 3;if(p==='monthly')return 2;return 1}
- function canPage(key,p=planKey()){const t=tier(p);if(['cutting','sewing'].includes(key))return t>=2;if(['wallet','accountant','planner'].includes(key))return t>=3;return true;}
+ function canPage(key,p=planKey()){const t=tier(p);if(['cutting','sewing','packing','finished'].includes(key))return t>=2;if(['wallet','accountant','planner'].includes(key))return t>=3;return true;}
  function updatePlanOptions(){const s=$('selectedPlan');if(s&&!s.querySelector('option[value="vip_weekly"]')){const o=document.createElement('option');o.value='vip_weekly';o.textContent='VIP Weekly — 5,000 ETB / 7 days · FULL ACCESS';const before=s.querySelector('option[value="monthly"]');s.insertBefore(o,before||null);}document.querySelectorAll('[data-plan="vip_weekly"]').forEach(()=>{});const pricing=document.querySelector('.pricing-grid');if(pricing&&!$('sgcVipPricingCard')){const c=document.createElement('article');c.id='sgcVipPricingCard';c.className='price-card sgc-vip-card';c.innerHTML=`<div class="price-tag">VIP · FULL ACCESS</div><h3>VIP Weekly Access</h3><div class="price">5,000 <small>ETB / 7 days</small></div><p>ለሙሉ የጋርመንት ቁጥጥር የተዘጋጀ የVIP ፓኬጅ።</p><ul><li>Dashboard & cash-flow analytics</li><li>Production, cutting & sewing line</li><li>Finished goods, sales & product stock</li><li>Fabric stock alerts & stock value</li><li>Expenses, profit, reports & printing</li><li>Wallet, accountant, business planner</li><li>Customers, orders, suppliers & employees</li><li>Automatic operational alerts</li></ul><button class="price-select" onclick="selectPlanAndScroll('vip_weekly')">Choose VIP Weekly</button>`;pricing.appendChild(c);}}
  window.updateSelectedPlanDetails=function(){const plan=$('selectedPlan')?.value||'',p=plans[plan];try{const desc=$('selectedPlanDetails');if(desc)desc.textContent=p?`${p.name} · ${p.days} days · ${p.price.toLocaleString()} ETB`:'';}catch(e){}};
  function addPlanDescriptions(){const grid=document.querySelector('.pricing-grid');if(!grid)return;const details={
@@ -5148,6 +5148,100 @@ body.dark-theme #sgcDashboardInsights .sgc-explain{background:#23201a;border-col
       }catch(e){}
     };
   }
+})();
+</script>
+
+
+
+<!-- SGCS FINAL PACKAGE-STRICT + CHANNEL REMOVAL -->
+<style id="sgcs-package-strict-fix">
+  /* Weekly package: do not show monthly/advanced workflow summaries on the dashboard. */
+  body.sgc-weekly-package #sgcLineOverview,
+  body.sgc-weekly-package #sgcInventorySummary,
+  body.sgc-weekly-package #sgcFinishedDashboardKpi,
+  body.sgc-weekly-package #sgcMonthlyFinishedDashboard,
+  body.sgc-weekly-package #sgcPackingPage,
+  body.sgc-weekly-package #sgcFinishedPage {
+    display:none!important;
+  }
+  body.sgc-weekly-package .sgc-insight-card.sgc-weekly-advanced {
+    display:none!important;
+  }
+  /* SGC Channel is not part of the application UI. */
+  #sgcChannelLink,#sgcChannelInline,#sgcSideHelpChannel,.sgcChannelLink {
+    display:none!important;
+    visibility:hidden!important;
+    pointer-events:none!important;
+  }
+</style>
+<script id="sgcs-package-strict-fix-script">
+(function(){
+  'use strict';
+  const $=id=>document.getElementById(id);
+  function plan(){return String(window.appState?.subscription?.plan||'weekly').toLowerCase().replace(/-/g,'_');}
+  function tier(p){if(p==='vip_weekly'||p==='annual'||p==='yearly'||p==='year')return 4;if(p==='quarterly'||p==='three_month'||p==='3_month')return 3;if(p==='monthly'||p==='thirty_day'||p==='30_day')return 2;return 1;}
+  function weeklyDashboardStrict(){
+    const p=plan(), t=tier(p), weekly=t===1;
+    document.body.classList.toggle('sgc-weekly-package',weekly);
+    // These dashboard blocks belong to Monthly+ workflow packages.
+    ['sgcLineOverview','sgcInventorySummary','sgcFinishedDashboardKpi','sgcMonthlyFinishedDashboard'].forEach(id=>{
+      const el=$(id); if(el) el.style.display=weekly?'none':'';
+    });
+    // Business-information cards: keep Weekly-supported production/sales/expense/stock cards;
+    // remove only sewing/packing and finished-stock cards on Weekly.
+    const insights=$('sgcDashboardInsights');
+    if(insights){
+      insights.querySelectorAll('.sgc-insight-card').forEach(card=>{
+        const txt=(card.textContent||'').toLowerCase();
+        const advanced=/sewing|packing|finished stock|ያለቀ ምርት|የታሸገ|ስፌት|ማሸጊያ/.test(txt);
+        card.classList.toggle('sgc-weekly-advanced',weekly && advanced);
+      });
+    }
+    // Hide monthly+ workflow pages from Weekly; allow them from Monthly upward.
+    ['page-cutting','page-sewing','page-packing','page-finished'].forEach(id=>{
+      const el=$(id); if(el) el.style.display=t>=2?'':'none';
+    });
+  }
+  function removeSgcChannel(){
+    document.querySelectorAll('a[href*="t.me/SGCPLUS"],#sgcChannelLink,#sgcChannelInline,#sgcSideHelpChannel,.sgcChannelLink').forEach(el=>el.remove());
+    document.querySelectorAll('a,button,.nav-btn').forEach(el=>{
+      const tx=(el.textContent||'').trim();
+      if(/SGC\\s*Channel|የSGC\\s*ቻናል|Telegram community|Explore our Telegram channel/i.test(tx)) el.remove();
+    });
+  }
+  // Prevent the old helper from recreating the channel button.
+  window.ensureHelpAndChannel=function(){
+    const help=$('sgcHelpFloat');
+    if(!help){
+      const b=document.createElement('button');
+      b.id='sgcHelpFloat'; b.className='sgc-help-float sgc-blink'; b.textContent=(typeof T==='function'?T('❔ ለእርዳታ','❔ Help'):'❔ Help');
+      b.onclick=()=>{const msg=encodeURIComponent('Hello, I need help with Smart Garment Control.');window.open('https://t.me/ZEROPLUSFOR?text='+msg,'_blank');};
+      document.body.appendChild(b);
+    }
+    removeSgcChannel();
+  };
+  function apply(){try{weeklyDashboardStrict();removeSgcChannel();}catch(e){}}
+  const oldRender=window.renderAllComponents;
+  if(typeof oldRender==='function'&&!oldRender.__packageStrictFix){
+    const fn=function(){const r=oldRender.apply(this,arguments);setTimeout(apply,0);return r;};
+    fn.__packageStrictFix=true; window.renderAllComponents=fn;
+  }
+  const oldSwitch=window.switchPage;
+  if(typeof oldSwitch==='function'&&!oldSwitch.__packageStrictSwitch){
+    const fn=function(key){
+      const t=tier(plan());
+      if(['cutting','sewing','packing','finished'].includes(key)&&t<2){
+        if(typeof showToast==='function') showToast(typeof opT==='function'?opT('ይህ አገልግሎት ከወር ፓኬጅ ጀምሮ ይገኛል።','This service is available from the Monthly package.'): 'This service is available from the Monthly package.');
+        return;
+      }
+      return oldSwitch.apply(this,arguments);
+    };
+    fn.__packageStrictSwitch=true; window.switchPage=fn;
+  }
+  const observer=new MutationObserver(()=>{removeSgcChannel();weeklyDashboardStrict();});
+  if(document.body) observer.observe(document.body,{childList:true,subtree:true});
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',apply); else apply();
+  setTimeout(apply,300); setTimeout(apply,1000); setTimeout(apply,2000);
 })();
 </script>
 
