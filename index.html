@@ -141,6 +141,28 @@ body.dark-theme .quick-card{background:#11141d;border-color:#2b3244}.quick-card 
 .uploaded-clickpaye-logo{width:100%;height:100%;display:block;object-fit:contain;object-position:center;background:#fff;}
 .cp-mark.uploaded-logo-holder,.brand-icon.uploaded-logo-holder{overflow:hidden;background:#fff!important;padding:2px;}
 </style>
+
+<style id="sgc-refresh-2026">
+:root{--bg:#f3f7fa;--panel:#ffffff;--text:#172b3a;--muted:#647789;--line:#dce6ed;--brand:#167d91;--brand2:#75c6c7;--orange:#38a3a5;--shadow:0 12px 34px rgba(18,48,65,.08)}
+body{background:radial-gradient(ellipse at 85% 0%,#d9eef0 0,transparent 34%),linear-gradient(135deg,#f7fafc,#eaf1f5);color:var(--text)}
+body.dark-theme{--bg:#101d2a;--panel:#172b3a;--text:#eff8fb;--muted:#a9bfca;--line:#294453;--brand:#44b7bd;--brand2:#8bd9d3;--orange:#5bc4c4;background:#0d1823}
+.sidebar{background:linear-gradient(180deg,#12374a 0%,#174e61 56%,#102c3c 100%);border-color:#4ebcc155}
+.brand-icon{background:linear-gradient(145deg,#baf0e7,#48b7bb 55%,#167d91);color:#102b39;border-color:#d4fffa}
+.nav-title{color:#75d4d0}.nav-btn:hover{color:#bff6ef;border-color:#55c7c322}.nav-btn.active{background:linear-gradient(100deg,#35b7bb25,#a5f1e40c);color:#b9f4ed;border-color:#4ebcc155;box-shadow:inset 3px 0 #69d3cf}
+.topbar{border-color:var(--line)}.primary,.orange{background:linear-gradient(135deg,#9de4df,#36a9b1)!important;color:#102b39!important;border-color:#7bd4d1!important}
+.hero,.launch-board{background:radial-gradient(circle at 88% 0%,#52c4c022,transparent 32%),linear-gradient(110deg,#12374a,#1a5364 65%,#276c73);border-color:#4ab8b766}
+.eyebrow,.launch-badge{color:#9ce8df}.stat-icon{background:linear-gradient(135deg,#e0f6f4,#c1e8e7);color:#176a78;border-color:#c2e9e8}
+th{background:linear-gradient(90deg,#e5f4f5,#f3f8fa);color:#245566}body.dark-theme th{background:#102633;color:#a8e5df}
+.result-box{background:linear-gradient(135deg,#e8f7f5,#d9eef1);border-color:#b7dfe1} .result-box .big{color:#176b79}
+.sgc-adboard{background:linear-gradient(120deg,#12374a,#1a5364)!important;border-color:#4ab8b7!important}
+.access-portal{--gold:#75c6c7;--gold2:#167d91}.access-portal.dark{background:radial-gradient(ellipse at 75% 5%,#3ab8b022,transparent 30%),#101d2a}
+.cp-mark,.lux-btn{background:linear-gradient(130deg,#baf0e7,#36a9b1)!important}
+.price-card.featured{border-color:#38a9b1;box-shadow:0 12px 35px #38a9b118}
+.price-tag,.portal-kicker,.telegram-support{color:#167d91}.access-portal.dark .portal-kicker{color:#9ce8df}
+.sgc-expiry{left:auto!important;right:8px!important;top:8px!important;transform:none!important;width:min(285px,calc(100vw - 16px))!important;max-width:calc(100vw - 16px)!important;padding:8px 22px 8px 9px!important;border-radius:10px!important;background:#12374a!important;color:#f3ffff!important;border:1px solid #58c8c4!important;box-shadow:0 5px 18px #001c2a33!important;text-align:left!important;line-height:1.45!important;font-size:10px!important;z-index:3000!important}
+.sgc-expiry strong{font-size:10px!important;display:block;padding-right:2px}.sgc-expiry-actions{display:flex;gap:5px;flex-wrap:wrap;margin-top:5px}.sgc-expiry .btn{font-size:9px!important;padding:5px 7px!important;border-radius:7px!important}
+@media(max-width:760px){.sgc-expiry{right:6px!important;top:6px!important;width:min(265px,calc(100vw - 12px))!important;padding:7px 21px 7px 8px!important}.sgc-expiry strong{font-size:9px!important}.sgc-expiry-actions{gap:4px}}
+</style>
 </head>
 <body>
 
@@ -276,11 +298,11 @@ body.dark-theme .quick-card{background:#11141d;border-color:#2b3244}.quick-card 
             <label for="selectedPlan" data-i18n="lbl_plan">የመረጡት ፓኬጅ / የቀን ብዛት</label>
             <select id="selectedPlan" onchange="updateSelectedPlanDetails()">
               <option value="" data-i18n="opt_plan">ፓኬጅ ይምረጡ</option>
-              <option value="weekly">Weekly — 3,000 ETB / 7 days · Core services</option>
-              <option value="vip_weekly">VIP Weekly — 5,000 ETB / 7 days · FULL ACCESS</option>
-              <option value="monthly">Monthly — 12,000 ETB / 30 days</option>
-              <option value="quarterly">Quarterly — 38,000 ETB / 90 days</option>
-              <option value="annual">Annual — 140,000 ETB / 365 days</option>
+              <option value="weekly">Weekly — 1,200 ETB / 7 days · Core services</option>
+              <option value="vip_weekly">VIP Weekly — 2,000 ETB / 7 days · FULL ACCESS</option>
+              <option value="monthly">Monthly — 3,500 ETB / 30 days</option>
+              <option value="quarterly">Quarterly — 13,500 ETB / 90 days</option>
+              <option value="annual">Annual — 30,000 ETB / 365 days</option>
             </select>
           </div>
 
@@ -1318,7 +1340,7 @@ function sgcRegistrationPayload() {
   try { cached = JSON.parse(localStorage.getItem('sgcRegistrationContactCache') || '{}') || {}; } catch (_) {}
   const plan = val('selectedPlan') || cached.plan || '';
   const days = Number(appState?.subscription?.days || cached.days || 0);
-  const planPriceMap = {weekly:3000,vip_weekly:5000,monthly:12000,quarterly:38000,annual:140000};
+  const planPriceMap = {weekly:1200,vip_weekly:2000,monthly:3500,quarterly:9000,annual:30000};
   const planFee = planPriceMap[plan] || cached.planFee || '';
   const current = {
     name: val('subscriberName'), company: val('companyName'), companyType: val('companyType'),
@@ -1418,7 +1440,7 @@ function checkActivationCodeInput(val) {
   if (cName) appState.profile.garmentName = cName;
   if (sName) appState.profile.ownerName = sName;
   appState.profile.phone = phone;
-  try { localStorage.setItem('sgcRegistrationContactCache', JSON.stringify({name:sName,company:cName,personalPhone:phone,plan:selectedPlan,days,planFee:({weekly:3000,vip_weekly:5000,monthly:12000,thirty_day:12000,quarterly:38000,annual:140000,yearly:140000,year:140000})[selectedPlan] || 0})); } catch (_) {}
+  try { localStorage.setItem('sgcRegistrationContactCache', JSON.stringify({name:sName,company:cName,personalPhone:phone,plan:selectedPlan,days,planFee:({weekly:1200,vip_weekly:2000,monthly:3500,thirty_day:3500,quarterly:9000,annual:30000,yearly:30000,year:30000})[selectedPlan] || 0})); } catch (_) {}
   saveSystemState();
   if (typeof sendSgcTelegramEvent === 'function') sendSgcTelegramEvent('activation_success', {activationStatus:'Activated', plan:selectedPlan, days, startTime:now.toISOString(), endTime:endTime.toISOString()});
   const portal = document.getElementById('accessPortal'); if (portal) portal.style.display = 'none';
@@ -3172,7 +3194,7 @@ function ensureAdBoard(){const ticker=$('tickerInfoBox');if(ticker){ticker.style
 function ensureHelpAndChannel(){if(!$('sgcHelpFloat')){const b=document.createElement('button');b.id='sgcHelpFloat';b.className='sgc-help-float sgc-blink';b.textContent=T('❔ ለእርዳታ','❔ Help');b.onclick=()=>{const msg=encodeURIComponent('Hello, I need help with Smart Garment Control.');window.open('https://t.me/ZEROPLUSFOR?text='+msg,'_blank');};document.body.appendChild(b);}if(!$('sgcChannelLink')){const a=document.createElement('a');a.id='sgcChannelLink';a.href='https://t.me/SGCPLUS';a.target='_blank';a.rel='noopener';a.textContent=T('📣 SGC ቻናል','📣 SGC Channel');a.style.cssText='position:fixed;left:12px;bottom:12px;z-index:999;background:#1d8acb;color:#fff;padding:10px 14px;border-radius:999px;text-decoration:none;font-weight:800;box-shadow:0 4px 16px #0003';document.body.appendChild(a);}}
 // Subscription reminders and expiry lock; records remain stored and become available after reactivation.
 function applyPackageVisibility(){const weekly=appState.subscription?.plan==='weekly';document.querySelectorAll('.sidebar .nav-btn[onclick*="cutting"],.sidebar .nav-btn[onclick*="sewing"]').forEach(b=>b.style.display=weekly?'none':'');if(weekly){$('page-cutting')?.classList.remove('active');$('page-sewing')?.classList.remove('active');}}
-function expiryCheck(){const s=appState.subscription||{};if(!s.plan||!s.endTime)return;const end=new Date(s.endTime).getTime(),now=Date.now(),left=Math.ceil((end-now)/86400000);const warn={weekly:2,monthly:7,quarterly:14,annual:30}[s.plan]||2;let box=$('sgcExpiryNotice');if(left<=warn&&left>0){if(!box){box=document.createElement('div');box.id='sgcExpiryNotice';box.className='sgc-expiry sgc-blink';document.body.appendChild(box);}box.innerHTML=`<strong>${T('የፓኬጅ ቀን ማሳሰቢያ','Subscription reminder')}: ${left} ${T('ቀን ቀርቷል','day(s) remaining')}</strong><br>${T('ቀናችሁ ሲያልቅ አገልግሎቱ ይቆማል። መረጃዎ አይጠፋም፤ ከመቋረጡ በፊት የExcel/CSV Backup ያውርዱ። ድጋሚ ከከፈሉ በኋላ በነበረው መረጃ መቀጠል ይችላሉ።','Access stops when the package expires. Your records are retained locally. Download an Excel/CSV backup before expiry; reactivation lets you continue with saved data.')}<br><button class="btn" onclick="exportAllDataCSV()">📊 ${T('Excel/CSV Backup አውርድ','Download Excel/CSV backup')}</button>`;}else if(left<=0){if(!box){box=document.createElement('div');box.id='sgcExpiryNotice';box.className='sgc-expiry sgc-blink';document.body.appendChild(box);}box.innerHTML=`<strong>🔒 ${T('የፓኬጅ ቆይታዎ አብቅቷል','Your package has expired')}</strong><br>${T('አገልግሎቱ ለጊዜው ተቋርጧል። የተመዘገበው መረጃ በዚህ መሳሪያ ላይ ተጠብቆ ይቆያል፤ እንደገና ከከፈሉ በኋላ መቀጠል ይችላሉ። ከመውጣትዎ በፊት Excel/CSV Backup ያውርዱ።','Access is paused. Existing records remain stored on this device; after reactivation you can continue. Download an Excel/CSV backup before leaving.')}<br><button class="btn" onclick="exportAllDataCSV()">📊 ${T('Excel/CSV Backup አውርድ','Download Excel/CSV backup')}</button><button class="btn primary" onclick="document.getElementById('activationPage')?.scrollIntoView({behavior:'smooth'})">${T('ድጋሚ አክቲቬት አድርግ','Reactivate package')}</button>`;const app=$('businessApp');if(app)app.style.pointerEvents='none';if(box)box.style.pointerEvents='auto';}else{box?.remove();const app=$('businessApp');if(app)app.style.pointerEvents='';}}
+function expiryCheck(){const sub=appState.subscription||{};if(!sub.plan||!sub.endTime)return;const end=new Date(sub.endTime).getTime(),now=Date.now(),msLeft=end-now;let box=$('sgcExpiryNotice');if(msLeft<=5*60*60*1000&&msLeft>0){const hours=Math.max(1,Math.ceil(msLeft/3600000));if(!box){box=document.createElement('div');box.id='sgcExpiryNotice';box.className='sgc-expiry';document.body.appendChild(box);}box.innerHTML=`<button aria-label="Close reminder" onclick="this.parentElement.style.display='none'" style="position:absolute;right:5px;top:3px;background:transparent;color:inherit;font-size:15px;padding:0 4px">×</button><strong>⏳ ${T('የፓኬጅ ቆይታ ማሳሰቢያ','Package expiry reminder')}: ${hours} ${T('ሰዓት ቀርቷል','hour(s) left')}</strong><div style="margin:3px 0">${T('ከማብቃቱ በፊት Excel/CSV Backup ያውርዱ።','Download an Excel/CSV backup before expiry.')}</div><div class="sgc-expiry-actions"><button class="btn sm" onclick="exportAllDataCSV()">📊 ${T('Backup አውርድ','Download backup')}</button>${msLeft<=0?`<button class="btn primary sm" onclick="document.getElementById('activationPage')?.scrollIntoView({behavior:'smooth'})">${T('ድጋሚ አክቲቬት','Reactivate')}</button>`:''}</div>`;}else if(msLeft<=0){if(!box){box=document.createElement('div');box.id='sgcExpiryNotice';box.className='sgc-expiry';document.body.appendChild(box);}box.innerHTML=`<button aria-label="Close reminder" onclick="this.parentElement.style.display='none'" style="position:absolute;right:5px;top:3px;background:transparent;color:inherit;font-size:15px;padding:0 4px">×</button><strong>🔒 ${T('የፓኬጅ ቆይታዎ አብቅቷል','Your package has expired')}</strong><div style="margin:3px 0">${T('መረጃዎ ተጠብቆ ይቆያል።','Your records remain saved.')}</div><div class="sgc-expiry-actions"><button class="btn sm" onclick="exportAllDataCSV()">📊 ${T('Backup አውርድ','Download backup')}</button><button class="btn primary sm" onclick="document.getElementById('activationPage')?.scrollIntoView({behavior:'smooth'})">${T('ድጋሚ አክቲቬት','Reactivate')}</button></div>`;const app=$('businessApp');if(app)app.style.pointerEvents='none';if(box)box.style.pointerEvents='auto';}else{box?.remove();const app=$('businessApp');if(app)app.style.pointerEvents='';}}
 // Use the existing CSV export function as the supported spreadsheet format.
 window.exportAllDataCSV=window.exportAllDataCSV||function(){if(typeof exportDataExcel==='function')return exportDataExcel();if(typeof exportAllData==='function')return exportAllData();if(typeof exportDataCSV==='function')return exportDataCSV();if(typeof exportComprehensiveCSV==='function')return exportComprehensiveCSV();showToast(T('Excel/CSV ማውረጃ ተግባር አልተገኘም። Settings ውስጥ Backup ይጠቀሙ።','Use Backup/Export in Settings to download your spreadsheet data.'));};
 const origSwitch=window.switchPage;window.switchPage=function(key){if(appState.subscription?.plan==='weekly'&&(key==='sewing'||key==='cutting')){showToast(T('የቆረጣ እና የስፌት ክትትል ከወር ፓኬጅ ጀምሮ ይገኛል።','Cutting and sewing control are available from the monthly package.'));return;}if(key==='sewing'){ensureSewingPage();document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));$('page-sewing')?.classList.add('active');document.querySelector('.sidebar .nav-btn[onclick*="sewing"]')?.classList.add('active');if($('topTitle'))$('topTitle').textContent='SEWING LINE CONTROL';$('sidebar')?.classList.remove('open');$('mobileOverlay')?.classList.remove('show');sgcRenderSewing();return;}return origSwitch.apply(this,arguments);};
@@ -3404,7 +3426,7 @@ function professionalReceipt(){
  const box=$('receiptPreviewBox');if(!box)return;
  const v=id=>$(id)?.value?.trim()||'—';
  const plan=$('selectedPlan')?.value||'';const days=({weekly:7,vip_weekly:7,monthly:30,quarterly:90,annual:365})[plan]||0;
- const prices=({weekly:3000,vip_weekly:5000,monthly:12000,quarterly:38000,annual:140000});
+ const prices=({weekly:1200,vip_weekly:2000,monthly:3500,quarterly:9000,annual:30000});
  const planName=({weekly:'Weekly / ሳምንታዊ',vip_weekly:'VIP Weekly / ቪአይፒ ሳምንታዊ',monthly:'Monthly / ወርሃዊ',quarterly:'Quarterly / የ3 ወር',annual:'Annual / ዓመታዊ'})[plan]||'—';
  const now=new Date();const receiptId='SGC-'+now.getFullYear()+String(now.getMonth()+1).padStart(2,'0')+String(now.getDate()).padStart(2,'0')+'-'+(v('paymentReference')==='—'?'PENDING':esc(v('paymentReference')));
  box.innerHTML=`<div class="sgc-receipt"><div class="sgc-receipt-head"><div><div style="font-size:10px;letter-spacing:.12em;color:#987844;font-weight:900">SMART GARMENT CONTROL</div><h3 style="margin:4px 0;color:#17202c">${tx('የምዝገባ እና የክፍያ ደረሰኝ','REGISTRATION & PAYMENT RECEIPT')}</h3><div style="font-size:11px;color:#647184">Launched by ClickPay Digital</div></div><div style="text-align:right;font-size:11px;color:#536174"><b>${esc(receiptId)}</b><br>${esc(now.toLocaleString())}</div></div><div class="sgc-receipt-grid">
@@ -3636,12 +3658,12 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
  const num=v=>Number(v)||0;
  const money=v=>(num(v)).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})+' ETB';
  const esc=v=>String(v==null?'':v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
- const plans={weekly:{days:7,price:3000,name:'Weekly / ሳምንታዊ'},vip_weekly:{days:7,price:5000,name:'VIP Weekly / ቪአይፒ ሳምንታዊ'},monthly:{days:30,price:12000,name:'Monthly / ወርሃዊ'},quarterly:{days:90,price:38000,name:'Quarterly / 3 ወር'},annual:{days:365,price:140000,name:'Annual / ዓመታዊ'}};
+ const plans={weekly:{days:7,price:1200,name:'Weekly / ሳምንታዊ'},vip_weekly:{days:7,price:2000,name:'VIP Weekly / ቪአይፒ ሳምንታዊ'},monthly:{days:30,price:3500,name:'Monthly / ወርሃዊ'},quarterly:{days:90,price:9000,name:'Quarterly / 3 ወር'},annual:{days:365,price:30000,name:'Annual / ዓመታዊ'}};
  const allPages=['dashboard','production','sales','expenses','stock','reports','wallet','accountant','planner','cutting','sewing','packing','finished','products','orders','customers','suppliers','employees','settings'];
  function planKey(){return String(appState?.subscription?.plan||'weekly').toLowerCase()}
  function tier(p){if(p==='vip_weekly'||p==='annual')return 4;if(p==='quarterly')return 3;if(p==='monthly')return 2;return 1}
  function canPage(key,p=planKey()){const t=tier(p);if(['cutting','sewing','packing','finished'].includes(key))return t>=2;if(['wallet','accountant','planner'].includes(key))return t>=3;return true;}
- function updatePlanOptions(){const s=$('selectedPlan');if(s&&!s.querySelector('option[value="vip_weekly"]')){const o=document.createElement('option');o.value='vip_weekly';o.textContent='VIP Weekly — 5,000 ETB / 7 days · FULL ACCESS';const before=s.querySelector('option[value="monthly"]');s.insertBefore(o,before||null);}document.querySelectorAll('[data-plan="vip_weekly"]').forEach(()=>{});const pricing=document.querySelector('.pricing-grid');if(pricing&&!$('sgcVipPricingCard')){const c=document.createElement('article');c.id='sgcVipPricingCard';c.className='price-card sgc-vip-card';c.innerHTML=`<div class="price-tag">VIP · FULL ACCESS</div><h3>VIP Weekly Access</h3><div class="price">5,000 <small>ETB / 7 days</small></div><p>ለሙሉ የጋርመንት ቁጥጥር የተዘጋጀ የVIP ፓኬጅ።</p><ul><li>Dashboard & cash-flow analytics</li><li>Production, cutting & sewing line</li><li>Finished goods, sales & product stock</li><li>Fabric stock alerts & stock value</li><li>Expenses, profit, reports & printing</li><li>Wallet, accountant, business planner</li><li>Customers, orders, suppliers & employees</li><li>Automatic operational alerts</li></ul><button class="price-select" onclick="selectPlanAndScroll('vip_weekly')">Choose VIP Weekly</button>`;pricing.appendChild(c);}}
+ function updatePlanOptions(){const s=$('selectedPlan');if(s&&!s.querySelector('option[value="vip_weekly"]')){const o=document.createElement('option');o.value='vip_weekly';o.textContent='VIP Weekly — 2,000 ETB / 7 days · FULL ACCESS';const before=s.querySelector('option[value="monthly"]');s.insertBefore(o,before||null);}document.querySelectorAll('[data-plan="vip_weekly"]').forEach(()=>{});const pricing=document.querySelector('.pricing-grid');if(pricing&&!$('sgcVipPricingCard')){const c=document.createElement('article');c.id='sgcVipPricingCard';c.className='price-card sgc-vip-card';c.innerHTML=`<div class="price-tag">VIP · FULL ACCESS</div><h3>VIP Weekly Access</h3><div class="price">2,000 <small>ETB / 7 days</small></div><p>ለሙሉ የጋርመንት ቁጥጥር የተዘጋጀ የVIP ፓኬጅ።</p><ul><li>Dashboard & cash-flow analytics</li><li>Production, cutting & sewing line</li><li>Finished goods, sales & product stock</li><li>Fabric stock alerts & stock value</li><li>Expenses, profit, reports & printing</li><li>Wallet, accountant, business planner</li><li>Customers, orders, suppliers & employees</li><li>Automatic operational alerts</li></ul><button class="price-select" onclick="selectPlanAndScroll('vip_weekly')">Choose VIP Weekly</button>`;pricing.appendChild(c);}}
  window.updateSelectedPlanDetails=function(){const plan=$('selectedPlan')?.value||'',p=plans[plan];try{const desc=$('selectedPlanDetails');if(desc)desc.textContent=p?`${p.name} · ${p.days} days · ${p.price.toLocaleString()} ETB`:'';}catch(e){}};
  function addPlanDescriptions(){const grid=document.querySelector('.pricing-grid');if(!grid)return;const details={
  weekly:{title:'WEEKLY · CORE SERVICES',items:['Dashboard & basic cash-flow trend','Production registration and production cost summary','Product catalog and unsold stock estimate','Sales & income records','Expenses and operating cost records','Fabric / input stock by item name','Per-fabric low-stock alerts','Customers, orders and suppliers','Employees and basic business reports','Print reports, backup and restore','Cutting/sewing line, Profit Wallet, Accountant & Business Planner are not included']},
@@ -3832,11 +3854,11 @@ const services={
  const $=id=>document.getElementById(id);
  const am=(a,b)=>{try{return typeof opT==='function'?opT(a,b):a}catch(e){return a}};
  const plans=[
- {key:'weekly',title:'የሳምንት ፓኬጅ ጥቅሞች',en:'WEEKLY PACKAGE BENEFITS',price:'3,000 ETB',period:'7 ቀን · 7 DAYS',intro:'ለመሠረታዊ የጋርመንት ስራዎች የሳምንት አገልግሎት።',introEn:'Core garment business management for 7 days.',items:['ዳሽቦርድ፣ የገቢና ወጪ ማጠቃለያ።','የምርት መዝገብ፣ የምርት ወጪ እና የአንድ ፍሬ ዋጋ ስሌት።','የምርት ዝርዝር፣ የቀሪ ምርት ግምት እና የምርት ዋጋ።','ሽያጭ፣ ገቢ፣ ወጪ እና የንግድ መዝገቦች።','የጨርቅ/ጥሬ ዕቃ እስቶክ፣ የቀሪ መጠን እና ዝቅተኛ እስቶክ ማሳሰቢያ።','ደንበኞች፣ ትዕዛዞች፣ አቅራቢዎች፣ ሰራተኞች፣ ሪፖርት፣ ማተሚያ እና ባካፕ።','ቆረጣ፣ ስፌት መስመር፣ ዋሌት፣ አካውንታንት እና ቢዝነስ ፕላነር አይካተቱም።'],itemsEn:['Dashboard with income and expense summary.','Production records, production cost and unit-cost calculations.','Product catalog, estimated unsold quantity and product value.','Sales, income, expenses and business records.','Fabric/raw-material stock, remaining quantity and low-stock alerts.','Customers, orders, suppliers, employees, reports, printing and backup.','Cutting, sewing line, Wallet, Accountant and Business Planner are not included.']},
- {key:'vip_weekly',title:'የVIP ሳምንት ፓኬጅ ጥቅሞች',en:'VIP WEEKLY PACKAGE BENEFITS',price:'5,000 ETB',period:'7 ቀን · 7 DAYS',intro:'ለ7 ቀናት ሁሉንም ዋና እና የላቁ አገልግሎቶች የሚያካትት ፓኬጅ።',introEn:'Full access to the main and advanced garment tools for 7 days.',items:['ሁሉም የዳሽቦርድ፣ ገቢ፣ ወጪ፣ ትርፍ እና ካሽ ፍሎው ማጠቃለያዎች።','ፕሮዳክሽን፣ የጨርቅ ፍጆታ፣ ቆረጣ እና የቆረጣ ስቶክ ክትትል።','ስፌት መስመር፣ የገባ፣ ያለቀ፣ የታሸገ እና ቀሪ ምርት ክትትል።','ያለቀ ምርት፣ ፕሮዳክት ስቶክ፣ ሽያጭ እና የምርት ዋጋ ስሌት።','የጨርቅ አላርም፣ የስቶክ ዋጋ፣ ወጪ እና ትርፍ ክትትል።','ዋሌት፣ አካውንታንት፣ ታክስ መረጃ እና ቢዝነስ ፕላነር።','ደንበኞች፣ ትዕዛዞች፣ አቅራቢዎች፣ ሰራተኞች፣ ሪፖርት፣ ማተሚያ፣ ባካፕ እና የስራ ማሳሰቢያዎች።'],itemsEn:['All dashboard, income, expense, profit and cash-flow summaries.','Production, fabric consumption, cutting and cut-stock tracking.','Sewing line, entered, completed, packed and remaining quantities.','Finished goods, product stock, sales and product value calculations.','Fabric alerts, stock valuation, expense and profit tracking.','Wallet, Accountant, tax workspace and Business Planner.','Customers, orders, suppliers, employees, reports, printing, backup and operational reminders.']},
- {key:'monthly',title:'የወር ፓኬጅ ጥቅሞች',en:'MONTHLY PACKAGE BENEFITS',price:'12,000 ETB',period:'30 ቀን · 30 DAYS',intro:'የሳምንት አገልግሎቶችን በሙሉ ከቆረጣና ስፌት መስመር ክትትል ጋር ያገኛሉ።',introEn:'Everything in Weekly, plus cutting and sewing workflow control.',items:['ሁሉም የሳምንት ፓኬጅ አገልግሎቶች ይካተታሉ።','ቆረጣ መመዝገብ፣ የጨርቅ ፍጆታ ማስላት እና የቆረጣ እስቶክ ክትትል።','ወደ ስፌት መስመር የገባ ምርት፣ የተጠናቀቀ፣ የታሸገ እና የቀረ ብዛት።','የቀን የምርት እና የስፌት ታርጌት ክትትል።','ያለቀ ምርትና የቆረጣ እስቶክ ማጠቃለያ።','የተሻሻሉ ሪፖርቶች፣ ማተሚያ፣ ባካፕ እና የስራ ሂደት ክትትል።'],itemsEn:['Includes every Weekly package service.','Cutting entries, fabric-consumption calculations and cut-stock tracking.','Sewing-line input, completed, packed and remaining quantities.','Daily production and sewing target monitoring.','Finished-goods and cut-stock summaries.','Enhanced reports, printing, backup and workflow monitoring.']},
- {key:'quarterly',title:'የሶስት ወር ፓኬጅ ጥቅሞች',en:'QUARTERLY PACKAGE BENEFITS',price:'38,000 ETB',period:'90 ቀን · 90 DAYS',intro:'የሳምንትና የወር አገልግሎቶችን ከፋይናንስ እና የእቅድ መሳሪያዎች ጋር ያካትታል።',introEn:'Weekly and Monthly services plus finance and planning tools.',items:['የሳምንትና የወር ፓኬጅ አገልግሎቶች ሁሉ።','የትርፍ ዋሌት እና የገንዘብ ፍሰት ክትትል።','የአካውንታንት እና የታክስ መረጃ ማስተናገጃ።','የቢዝነስ ፕላነር፣ የስራ እቅድ እና የተግባር ክትትል።','የገቢ፣ ወጪ፣ ስቶክ፣ ትርፍ እና ምርት ዝርዝር ትንታኔ።','የላቁ ሪፖርቶች፣ ማተሚያ፣ ባካፕ እና የንግድ መረጃ ክትትል።'],itemsEn:['All Weekly and Monthly package services.','Profit Wallet and cash-flow monitoring.','Accountant and tax information workspace.','Business Planner, work plans and task tracking.','Detailed income, expense, stock, profit and production analytics.','Advanced reports, printing, backup and business record monitoring.']},
- {key:'annual',title:'የአመት ፓኬጅ ጥቅሞች',en:'ANNUAL PACKAGE BENEFITS',price:'140,000 ETB',period:'365 ቀን · 365 DAYS',intro:'ለሙሉ ዓመት የሁሉም ዋና እና የላቁ የንግድ መሳሪያዎች መዳረሻ።',introEn:'Year-round access to the complete set of core and advanced business tools.',items:['ሁሉም ሜኑዎች፣ ዳሽቦርዶች እና የንግድ ማጠቃለያዎች።','ፕሮዳክሽን፣ ቆረጣ፣ ስፌት መስመር እና ያለቀ ምርት ክትትል።','ፕሮዳክት እስቶክ፣ ሽያጭ፣ ደንበኞች፣ ትዕዛዞች እና አቅራቢዎች።','ጨርቅ/ጥሬ ዕቃ እስቶክ፣ አላርም እና የስቶክ ዋጋ ስሌት።','ወጪ፣ ትርፍ፣ ዋሌት፣ ካሽ ፍሎው፣ አካውንታንት እና ቢዝነስ ፕላነር።','ሰራተኞች፣ ሪፖርት፣ ማተሚያ፣ ባካፕ፣ የቀን ታርጌት እና የስራ ማሳሰቢያዎች።'],itemsEn:['All menus, dashboards and business summaries.','Production, cutting, sewing line and finished-goods monitoring.','Product stock, sales, customers, orders and suppliers.','Fabric/raw-material stock, alerts and stock valuation.','Expenses, profit, Wallet, cash flow, Accountant and Business Planner.','Employees, reports, printing, backup, daily targets and operational reminders.']}
+ {key:'weekly',title:'የሳምንት ፓኬጅ ጥቅሞች',en:'WEEKLY PACKAGE BENEFITS',price:'1,200 ETB',period:'7 ቀን · 7 DAYS',intro:'ለመሠረታዊ የጋርመንት ስራዎች የሳምንት አገልግሎት።',introEn:'Core garment business management for 7 days.',items:['ዳሽቦርድ፣ የገቢና ወጪ ማጠቃለያ።','የምርት መዝገብ፣ የምርት ወጪ እና የአንድ ፍሬ ዋጋ ስሌት።','የምርት ዝርዝር፣ የቀሪ ምርት ግምት እና የምርት ዋጋ።','ሽያጭ፣ ገቢ፣ ወጪ እና የንግድ መዝገቦች።','የጨርቅ/ጥሬ ዕቃ እስቶክ፣ የቀሪ መጠን እና ዝቅተኛ እስቶክ ማሳሰቢያ።','ደንበኞች፣ ትዕዛዞች፣ አቅራቢዎች፣ ሰራተኞች፣ ሪፖርት፣ ማተሚያ እና ባካፕ።','ቆረጣ፣ ስፌት መስመር፣ ዋሌት፣ አካውንታንት እና ቢዝነስ ፕላነር አይካተቱም።'],itemsEn:['Dashboard with income and expense summary.','Production records, production cost and unit-cost calculations.','Product catalog, estimated unsold quantity and product value.','Sales, income, expenses and business records.','Fabric/raw-material stock, remaining quantity and low-stock alerts.','Customers, orders, suppliers, employees, reports, printing and backup.','Cutting, sewing line, Wallet, Accountant and Business Planner are not included.']},
+ {key:'vip_weekly',title:'የVIP ሳምንት ፓኬጅ ጥቅሞች',en:'VIP WEEKLY PACKAGE BENEFITS',price:'2,000 ETB',period:'7 ቀን · 7 DAYS',intro:'ለ7 ቀናት ሁሉንም ዋና እና የላቁ አገልግሎቶች የሚያካትት ፓኬጅ።',introEn:'Full access to the main and advanced garment tools for 7 days.',items:['ሁሉም የዳሽቦርድ፣ ገቢ፣ ወጪ፣ ትርፍ እና ካሽ ፍሎው ማጠቃለያዎች።','ፕሮዳክሽን፣ የጨርቅ ፍጆታ፣ ቆረጣ እና የቆረጣ ስቶክ ክትትል።','ስፌት መስመር፣ የገባ፣ ያለቀ፣ የታሸገ እና ቀሪ ምርት ክትትል።','ያለቀ ምርት፣ ፕሮዳክት ስቶክ፣ ሽያጭ እና የምርት ዋጋ ስሌት።','የጨርቅ አላርም፣ የስቶክ ዋጋ፣ ወጪ እና ትርፍ ክትትል።','ዋሌት፣ አካውንታንት፣ ታክስ መረጃ እና ቢዝነስ ፕላነር።','ደንበኞች፣ ትዕዛዞች፣ አቅራቢዎች፣ ሰራተኞች፣ ሪፖርት፣ ማተሚያ፣ ባካፕ እና የስራ ማሳሰቢያዎች።'],itemsEn:['All dashboard, income, expense, profit and cash-flow summaries.','Production, fabric consumption, cutting and cut-stock tracking.','Sewing line, entered, completed, packed and remaining quantities.','Finished goods, product stock, sales and product value calculations.','Fabric alerts, stock valuation, expense and profit tracking.','Wallet, Accountant, tax workspace and Business Planner.','Customers, orders, suppliers, employees, reports, printing, backup and operational reminders.']},
+ {key:'monthly',title:'የወር ፓኬጅ ጥቅሞች',en:'MONTHLY PACKAGE BENEFITS',price:'3,500 ETB',period:'30 ቀን · 30 DAYS',intro:'የሳምንት አገልግሎቶችን በሙሉ ከቆረጣና ስፌት መስመር ክትትል ጋር ያገኛሉ።',introEn:'Everything in Weekly, plus cutting and sewing workflow control.',items:['ሁሉም የሳምንት ፓኬጅ አገልግሎቶች ይካተታሉ።','ቆረጣ መመዝገብ፣ የጨርቅ ፍጆታ ማስላት እና የቆረጣ እስቶክ ክትትል።','ወደ ስፌት መስመር የገባ ምርት፣ የተጠናቀቀ፣ የታሸገ እና የቀረ ብዛት።','የቀን የምርት እና የስፌት ታርጌት ክትትል።','ያለቀ ምርትና የቆረጣ እስቶክ ማጠቃለያ።','የተሻሻሉ ሪፖርቶች፣ ማተሚያ፣ ባካፕ እና የስራ ሂደት ክትትል።'],itemsEn:['Includes every Weekly package service.','Cutting entries, fabric-consumption calculations and cut-stock tracking.','Sewing-line input, completed, packed and remaining quantities.','Daily production and sewing target monitoring.','Finished-goods and cut-stock summaries.','Enhanced reports, printing, backup and workflow monitoring.']},
+ {key:'quarterly',title:'የሶስት ወር ፓኬጅ ጥቅሞች',en:'QUARTERLY PACKAGE BENEFITS',price:'13,500 ETB',period:'90 ቀን · 90 DAYS',intro:'የሳምንትና የወር አገልግሎቶችን ከፋይናንስ እና የእቅድ መሳሪያዎች ጋር ያካትታል።',introEn:'Weekly and Monthly services plus finance and planning tools.',items:['የሳምንትና የወር ፓኬጅ አገልግሎቶች ሁሉ።','የትርፍ ዋሌት እና የገንዘብ ፍሰት ክትትል።','የአካውንታንት እና የታክስ መረጃ ማስተናገጃ።','የቢዝነስ ፕላነር፣ የስራ እቅድ እና የተግባር ክትትል።','የገቢ፣ ወጪ፣ ስቶክ፣ ትርፍ እና ምርት ዝርዝር ትንታኔ።','የላቁ ሪፖርቶች፣ ማተሚያ፣ ባካፕ እና የንግድ መረጃ ክትትል።'],itemsEn:['All Weekly and Monthly package services.','Profit Wallet and cash-flow monitoring.','Accountant and tax information workspace.','Business Planner, work plans and task tracking.','Detailed income, expense, stock, profit and production analytics.','Advanced reports, printing, backup and business record monitoring.']},
+ {key:'annual',title:'የአመት ፓኬጅ ጥቅሞች',en:'ANNUAL PACKAGE BENEFITS',price:'30,000 ETB',period:'365 ቀን · 365 DAYS',intro:'ለሙሉ ዓመት የሁሉም ዋና እና የላቁ የንግድ መሳሪያዎች መዳረሻ።',introEn:'Year-round access to the complete set of core and advanced business tools.',items:['ሁሉም ሜኑዎች፣ ዳሽቦርዶች እና የንግድ ማጠቃለያዎች።','ፕሮዳክሽን፣ ቆረጣ፣ ስፌት መስመር እና ያለቀ ምርት ክትትል።','ፕሮዳክት እስቶክ፣ ሽያጭ፣ ደንበኞች፣ ትዕዛዞች እና አቅራቢዎች።','ጨርቅ/ጥሬ ዕቃ እስቶክ፣ አላርም እና የስቶክ ዋጋ ስሌት።','ወጪ፣ ትርፍ፣ ዋሌት፣ ካሽ ፍሎው፣ አካውንታንት እና ቢዝነስ ፕላነር።','ሰራተኞች፣ ሪፖርት፣ ማተሚያ፣ ባካፕ፣ የቀን ታርጌት እና የስራ ማሳሰቢያዎች።'],itemsEn:['All menus, dashboards and business summaries.','Production, cutting, sewing line and finished-goods monitoring.','Product stock, sales, customers, orders and suppliers.','Fabric/raw-material stock, alerts and stock valuation.','Expenses, profit, Wallet, cash flow, Accountant and Business Planner.','Employees, reports, printing, backup, daily targets and operational reminders.']}
  ];
  let index=0;
  function language(){return typeof currentLang!=='undefined'&&currentLang==='en'?'en':'am';}
@@ -3875,11 +3897,11 @@ const services={
   {title:'ALTA GROUP · በExcel እና በዲጂታል ስራዎች',en:'ALTA GROUP · EXCEL & DIGITAL SOLUTIONS',body:'ለስልክና ለኮምፒውተር የሚስማሙ የንግድ ፎርሞች፣ ካልኩሌተሮች፣ ሪፖርቶች እና የስራ ሂደት ማቀላጠፊያ መፍትሄዎች።',bodyEn:'Mobile and desktop business forms, calculators, reports and workflow tools.'}
  ];
  const packages=[
- {title:'የሳምንት ፓኬጅ',en:'WEEKLY PACKAGE',price:'3,000 ETB',period:'7 ቀን',periodEn:'7 DAYS',intro:'ለመሠረታዊ የጋርመንት ስራዎች የሳምንት አገልግሎት።',introEn:'Core garment business management for 7 days.',items:['ዳሽቦርድ፣ ገቢና ወጪ ማጠቃለያ።','የምርት መዝገብ፣ የምርት ወጪ እና የአንድ ፍሬ ዋጋ ስሌት።','የምርት ዝርዝር፣ የቀሪ ምርት ግምት።','ሽያጭ፣ ገቢ፣ ወጪ፣ ደንበኞች፣ ትዕዛዞችና አቅራቢዎች።','ጨርቅ/ጥሬ ዕቃ ስቶክ፣ ዝቅተኛ ስቶክ ማሳሰቢያ፣ ሪፖርት፣ ማተሚያና ባካፕ።','ቆረጣ፣ ስፌት መስመር፣ ዋሌት፣ አካውንታንትና ቢዝነስ ፕላነር አይካተቱም።'],itemsEn:['Dashboard with income and expense summary.','Production records, production cost and unit-cost calculations.','Product catalog and remaining-product estimates.','Sales, income, expenses, customers, orders and suppliers.','Fabric/raw-material stock, low-stock alerts, reports, printing and backup.','Cutting, sewing line, Wallet, Accountant and Business Planner are not included.']},
- {title:'የVIP ሳምንት ፓኬጅ',en:'VIP WEEKLY PACKAGE',price:'5,000 ETB',period:'7 ቀን',periodEn:'7 DAYS',intro:'ለ7 ቀናት ዋናና የላቁ አገልግሎቶችን የሚያካትት ፓኬጅ።',introEn:'Full access to core and advanced garment tools for 7 days.',items:['ሁሉም ዳሽቦርድ፣ ገቢ፣ ወጪ፣ ትርፍና ካሽ ፍሎው ማጠቃለያዎች።','ፕሮዳክሽን፣ የጨርቅ ፍጆታ፣ ቆረጣና የቆረጣ ስቶክ ክትትል።','ስፌት መስመር፣ የገባ፣ ያለቀ፣ የታሸገና ቀሪ ምርት ክትትል።','የተጠናቀቀ ምርት፣ ፕሮዳክት ስቶክ፣ ሽያጭና የምርት ዋጋ ስሌት።','የጨርቅ አላርም፣ የስቶክ ዋጋ፣ ወጪና ትርፍ ክትትል።','ዋሌት፣ አካውንታንት፣ ታክስ መረጃ፣ ቢዝነስ ፕላነር፣ ሰራተኞች፣ ሪፖርትና ባካፕ።'],itemsEn:['All dashboard, income, expense, profit and cash-flow summaries.','Production, fabric consumption, cutting and cut-stock tracking.','Sewing line, entered, completed, packed and remaining quantities.','Finished goods, product stock, sales and product valuation.','Fabric alerts, stock valuation, expenses and profit tracking.','Wallet, Accountant, tax workspace, Business Planner, employees, reports and backup.']},
- {title:'የወር ፓኬጅ',en:'MONTHLY PACKAGE',price:'12,000 ETB',period:'30 ቀን',periodEn:'30 DAYS',intro:'የሳምንት አገልግሎቶችን በሙሉ ከቆረጣና ስፌት መስመር ክትትል ጋር።',introEn:'Everything in Weekly, plus cutting and sewing workflow control.',items:['ሁሉም የሳምንት ፓኬጅ አገልግሎቶች።','ቆረጣ መመዝገብ፣ የጨርቅ ፍጆታ ስሌትና የቆረጣ ስቶክ ክትትል።','ወደ ስፌት መስመር የገባ፣ የተጠናቀቀ፣ የታሸገና የቀረ ብዛት።','የቀን የምርትና የስፌት ታርጌት ክትትል።','ያለቀ ምርትና የቆረጣ ስቶክ ማጠቃለያ።','የተሻሻሉ ሪፖርቶች፣ ማተሚያ፣ ባካፕና የስራ ሂደት ክትትል።'],itemsEn:['Includes every Weekly package service.','Cutting entries, fabric-consumption calculations and cut-stock tracking.','Sewing-line input, completed, packed and remaining quantities.','Daily production and sewing target monitoring.','Finished-goods and cut-stock summaries.','Enhanced reports, printing, backup and workflow monitoring.']},
- {title:'የሶስት ወር ፓኬጅ',en:'QUARTERLY PACKAGE',price:'38,000 ETB',period:'90 ቀን',periodEn:'90 DAYS',intro:'የሳምንትና የወር አገልግሎቶችን ከፋይናንስና የእቅድ መሳሪያዎች ጋር።',introEn:'Weekly and Monthly services plus finance and planning tools.',items:['የሳምንትና የወር ፓኬጅ አገልግሎቶች ሁሉ።','የትርፍ ዋሌትና የገንዘብ ፍሰት ክትትል።','የአካውንታንትና የታክስ መረጃ ማስተናገድ።','የቢዝነስ ፕላነር፣ የስራ እቅድና የተግባር ክትትል።','የገቢ፣ ወጪ፣ ስቶክ፣ ትርፍና ምርት ዝርዝር ትንታኔ።','የላቁ ሪፖርቶች፣ ማተሚያ፣ ባካፕና የንግድ መረጃ ክትትል።'],itemsEn:['All Weekly and Monthly package services.','Profit Wallet and cash-flow monitoring.','Accountant and tax information workspace.','Business Planner, work plans and task tracking.','Detailed income, expense, stock, profit and production analytics.','Advanced reports, printing, backup and business record monitoring.']},
- {title:'የአመት ፓኬጅ',en:'ANNUAL PACKAGE',price:'140,000 ETB',period:'365 ቀን',periodEn:'365 DAYS',intro:'ለሙሉ ዓመት የሁሉም ዋናና የላቁ የንግድ መሳሪያዎች መዳረሻ።',introEn:'Year-round access to the complete set of core and advanced business tools.',items:['ሁሉም ሜኑዎች፣ ዳሽቦርዶችና የንግድ ማጠቃለያዎች።','ፕሮዳክሽን፣ ቆረጣ፣ ስፌት መስመርና ያለቀ ምርት ክትትል።','ፕሮዳክት ስቶክ፣ ሽያጭ፣ ደንበኞች፣ ትዕዛዞችና አቅራቢዎች።','ጨርቅ/ጥሬ ዕቃ ስቶክ፣ አላርምና የስቶክ ዋጋ ስሌት።','ወጪ፣ ትርፍ፣ ዋሌት፣ ካሽ ፍሎው፣ አካውንታንትና ቢዝነስ ፕላነር።','ሰራተኞች፣ ሪፖርት፣ ማተሚያ፣ ባካፕ፣ የቀን ታርጌትና የስራ ማሳሰቢያዎች።'],itemsEn:['All menus, dashboards and business summaries.','Production, cutting, sewing line and finished-goods monitoring.','Product stock, sales, customers, orders and suppliers.','Fabric/raw-material stock, alerts and stock valuation.','Expenses, profit, Wallet, cash flow, Accountant and Business Planner.','Employees, reports, printing, backup, daily targets and operational reminders.']}
+ {title:'የሳምንት ፓኬጅ',en:'WEEKLY PACKAGE',price:'1,200 ETB',period:'7 ቀን',periodEn:'7 DAYS',intro:'ለመሠረታዊ የጋርመንት ስራዎች የሳምንት አገልግሎት።',introEn:'Core garment business management for 7 days.',items:['ዳሽቦርድ፣ ገቢና ወጪ ማጠቃለያ።','የምርት መዝገብ፣ የምርት ወጪ እና የአንድ ፍሬ ዋጋ ስሌት።','የምርት ዝርዝር፣ የቀሪ ምርት ግምት።','ሽያጭ፣ ገቢ፣ ወጪ፣ ደንበኞች፣ ትዕዛዞችና አቅራቢዎች።','ጨርቅ/ጥሬ ዕቃ ስቶክ፣ ዝቅተኛ ስቶክ ማሳሰቢያ፣ ሪፖርት፣ ማተሚያና ባካፕ።','ቆረጣ፣ ስፌት መስመር፣ ዋሌት፣ አካውንታንትና ቢዝነስ ፕላነር አይካተቱም።'],itemsEn:['Dashboard with income and expense summary.','Production records, production cost and unit-cost calculations.','Product catalog and remaining-product estimates.','Sales, income, expenses, customers, orders and suppliers.','Fabric/raw-material stock, low-stock alerts, reports, printing and backup.','Cutting, sewing line, Wallet, Accountant and Business Planner are not included.']},
+ {title:'የVIP ሳምንት ፓኬጅ',en:'VIP WEEKLY PACKAGE',price:'2,000 ETB',period:'7 ቀን',periodEn:'7 DAYS',intro:'ለ7 ቀናት ዋናና የላቁ አገልግሎቶችን የሚያካትት ፓኬጅ።',introEn:'Full access to core and advanced garment tools for 7 days.',items:['ሁሉም ዳሽቦርድ፣ ገቢ፣ ወጪ፣ ትርፍና ካሽ ፍሎው ማጠቃለያዎች።','ፕሮዳክሽን፣ የጨርቅ ፍጆታ፣ ቆረጣና የቆረጣ ስቶክ ክትትል።','ስፌት መስመር፣ የገባ፣ ያለቀ፣ የታሸገና ቀሪ ምርት ክትትል።','የተጠናቀቀ ምርት፣ ፕሮዳክት ስቶክ፣ ሽያጭና የምርት ዋጋ ስሌት።','የጨርቅ አላርም፣ የስቶክ ዋጋ፣ ወጪና ትርፍ ክትትል።','ዋሌት፣ አካውንታንት፣ ታክስ መረጃ፣ ቢዝነስ ፕላነር፣ ሰራተኞች፣ ሪፖርትና ባካፕ።'],itemsEn:['All dashboard, income, expense, profit and cash-flow summaries.','Production, fabric consumption, cutting and cut-stock tracking.','Sewing line, entered, completed, packed and remaining quantities.','Finished goods, product stock, sales and product valuation.','Fabric alerts, stock valuation, expenses and profit tracking.','Wallet, Accountant, tax workspace, Business Planner, employees, reports and backup.']},
+ {title:'የወር ፓኬጅ',en:'MONTHLY PACKAGE',price:'3,500 ETB',period:'30 ቀን',periodEn:'30 DAYS',intro:'የሳምንት አገልግሎቶችን በሙሉ ከቆረጣና ስፌት መስመር ክትትል ጋር።',introEn:'Everything in Weekly, plus cutting and sewing workflow control.',items:['ሁሉም የሳምንት ፓኬጅ አገልግሎቶች።','ቆረጣ መመዝገብ፣ የጨርቅ ፍጆታ ስሌትና የቆረጣ ስቶክ ክትትል።','ወደ ስፌት መስመር የገባ፣ የተጠናቀቀ፣ የታሸገና የቀረ ብዛት።','የቀን የምርትና የስፌት ታርጌት ክትትል።','ያለቀ ምርትና የቆረጣ ስቶክ ማጠቃለያ።','የተሻሻሉ ሪፖርቶች፣ ማተሚያ፣ ባካፕና የስራ ሂደት ክትትል።'],itemsEn:['Includes every Weekly package service.','Cutting entries, fabric-consumption calculations and cut-stock tracking.','Sewing-line input, completed, packed and remaining quantities.','Daily production and sewing target monitoring.','Finished-goods and cut-stock summaries.','Enhanced reports, printing, backup and workflow monitoring.']},
+ {title:'የሶስት ወር ፓኬጅ',en:'QUARTERLY PACKAGE',price:'13,500 ETB',period:'90 ቀን',periodEn:'90 DAYS',intro:'የሳምንትና የወር አገልግሎቶችን ከፋይናንስና የእቅድ መሳሪያዎች ጋር።',introEn:'Weekly and Monthly services plus finance and planning tools.',items:['የሳምንትና የወር ፓኬጅ አገልግሎቶች ሁሉ።','የትርፍ ዋሌትና የገንዘብ ፍሰት ክትትል።','የአካውንታንትና የታክስ መረጃ ማስተናገድ።','የቢዝነስ ፕላነር፣ የስራ እቅድና የተግባር ክትትል።','የገቢ፣ ወጪ፣ ስቶክ፣ ትርፍና ምርት ዝርዝር ትንታኔ።','የላቁ ሪፖርቶች፣ ማተሚያ፣ ባካፕና የንግድ መረጃ ክትትል።'],itemsEn:['All Weekly and Monthly package services.','Profit Wallet and cash-flow monitoring.','Accountant and tax information workspace.','Business Planner, work plans and task tracking.','Detailed income, expense, stock, profit and production analytics.','Advanced reports, printing, backup and business record monitoring.']},
+ {title:'የአመት ፓኬጅ',en:'ANNUAL PACKAGE',price:'30,000 ETB',period:'365 ቀን',periodEn:'365 DAYS',intro:'ለሙሉ ዓመት የሁሉም ዋናና የላቁ የንግድ መሳሪያዎች መዳረሻ።',introEn:'Year-round access to the complete set of core and advanced business tools.',items:['ሁሉም ሜኑዎች፣ ዳሽቦርዶችና የንግድ ማጠቃለያዎች።','ፕሮዳክሽን፣ ቆረጣ፣ ስፌት መስመርና ያለቀ ምርት ክትትል።','ፕሮዳክት ስቶክ፣ ሽያጭ፣ ደንበኞች፣ ትዕዛዞችና አቅራቢዎች።','ጨርቅ/ጥሬ ዕቃ ስቶክ፣ አላርምና የስቶክ ዋጋ ስሌት።','ወጪ፣ ትርፍ፣ ዋሌት፣ ካሽ ፍሎው፣ አካውንታንትና ቢዝነስ ፕላነር።','ሰራተኞች፣ ሪፖርት፣ ማተሚያ፣ ባካፕ፣ የቀን ታርጌትና የስራ ማሳሰቢያዎች።'],itemsEn:['All menus, dashboards and business summaries.','Production, cutting, sewing line and finished-goods monitoring.','Product stock, sales, customers, orders and suppliers.','Fabric/raw-material stock, alerts and stock valuation.','Expenses, profit, Wallet, cash flow, Accountant and Business Planner.','Employees, reports, printing, backup, daily targets and operational reminders.']}
  ];
  let serviceIndex=0,packageIndex=0;
  function setup(){
@@ -3996,12 +4018,12 @@ const services={
  const plan=()=>aliases[rawPlan()]||rawPlan();
  const lang=()=>typeof currentLang!=='undefined'&&currentLang==='en';
  const info={
-  weekly:{am:'የሳምንት ፓኬጅ',en:'Weekly Package',price:'3,000 ETB',accent:'#65b7c9',bg:'#142b35'},
-  vip_weekly:{am:'VIP የሳምንት ፓኬጅ',en:'VIP Weekly Package',price:'5,000 ETB',accent:'#c6a6ff',bg:'#282137'},
-  monthly:{am:'የወር ፓኬጅ',en:'Monthly Package',price:'12,000 ETB',accent:'#70c99a',bg:'#182b23'},
-  thirty_day:{am:'የ30 ቀን ፓኬጅ',en:'30-Day Package',price:'12,000 ETB',accent:'#e2b86f',bg:'#302719'},
-  quarterly:{am:'የሶስት ወር ፓኬጅ',en:'Quarterly Package',price:'38,000 ETB',accent:'#82a8ef',bg:'#1d2539'},
-  annual:{am:'የአመት ፓኬጅ',en:'Annual Package',price:'140,000 ETB',accent:'#d69ab6',bg:'#2d2028'}
+  weekly:{am:'የሳምንት ፓኬጅ',en:'Weekly Package',price:'1,200 ETB',accent:'#65b7c9',bg:'#142b35'},
+  vip_weekly:{am:'VIP የሳምንት ፓኬጅ',en:'VIP Weekly Package',price:'2,000 ETB',accent:'#c6a6ff',bg:'#282137'},
+  monthly:{am:'የወር ፓኬጅ',en:'Monthly Package',price:'3,500 ETB',accent:'#70c99a',bg:'#182b23'},
+  thirty_day:{am:'የ30 ቀን ፓኬጅ',en:'30-Day Package',price:'3,500 ETB',accent:'#e2b86f',bg:'#302719'},
+  quarterly:{am:'የሶስት ወር ፓኬጅ',en:'Quarterly Package',price:'13,500 ETB',accent:'#82a8ef',bg:'#1d2539'},
+  annual:{am:'የአመት ፓኬጅ',en:'Annual Package',price:'30,000 ETB',accent:'#d69ab6',bg:'#2d2028'}
  };
  function packageBadge(){
   const app=$('businessApp');if(!app)return;
@@ -4062,12 +4084,12 @@ const services={
     return aliases[raw]||raw;
   };
   const packageInfo={
-    weekly:{am:'የሳምንት ፓኬጅ',en:'Weekly Package',price:3000,days:7,color:'#65b7c9',bg:'#142b35'},
-    vip_weekly:{am:'VIP የሳምንት ፓኬጅ',en:'VIP Weekly Package',price:5000,days:7,color:'#c6a6ff',bg:'#282137'},
-    monthly:{am:'የወር ፓኬጅ',en:'Monthly Package',price:12000,days:30,color:'#70c99a',bg:'#182b23'},
-    thirty_day:{am:'የ30 ቀን ፓኬጅ',en:'30-Day Package',price:12000,days:30,color:'#e2b86f',bg:'#302719'},
-    quarterly:{am:'የሶስት ወር ፓኬጅ',en:'Quarterly Package',price:38000,days:90,color:'#82a8ef',bg:'#1d2539'},
-    annual:{am:'የአመት ፓኬጅ',en:'Annual Package',price:140000,days:365,color:'#d69ab6',bg:'#2d2028'}
+    weekly:{am:'የሳምንት ፓኬጅ',en:'Weekly Package',price:1200,days:7,color:'#65b7c9',bg:'#142b35'},
+    vip_weekly:{am:'VIP የሳምንት ፓኬጅ',en:'VIP Weekly Package',price:2000,days:7,color:'#c6a6ff',bg:'#282137'},
+    monthly:{am:'የወር ፓኬጅ',en:'Monthly Package',price:3500,days:30,color:'#70c99a',bg:'#182b23'},
+    thirty_day:{am:'የ30 ቀን ፓኬጅ',en:'30-Day Package',price:3500,days:30,color:'#e2b86f',bg:'#302719'},
+    quarterly:{am:'የሶስት ወር ፓኬጅ',en:'Quarterly Package',price:9000,days:90,color:'#82a8ef',bg:'#1d2539'},
+    annual:{am:'የአመት ፓኬጅ',en:'Annual Package',price:30000,days:365,color:'#d69ab6',bg:'#2d2028'}
   };
   function activePlan(){
     const sub=window.appState?.subscription||{};
@@ -4335,14 +4357,14 @@ body:not(.dark-theme) .sgc-dash-kpi small,body:not(.dark-theme) .sgc-dash-kpi em
 (function(){
  const $=id=>document.getElementById(id);
  const planInfo={
-  weekly:{am:'የሳምንት ፓኬጅ',en:'Weekly Package',amount:3000,accent:'#65b7c9',bg:'#142b35'},
-  vip_weekly:{am:'VIP የሳምንት ፓኬጅ',en:'VIP Weekly Package',amount:5000,accent:'#c6a6ff',bg:'#282137'},
-  monthly:{am:'የወር ፓኬጅ',en:'Monthly Package',amount:12000,accent:'#70c99a',bg:'#182b23'},
-  thirty_day:{am:'የ30 ቀን ፓኬጅ',en:'30-Day Package',amount:12000,accent:'#e2b86f',bg:'#302719'},
-  quarterly:{am:'የሶስት ወር ፓኬጅ',en:'Quarterly Package',amount:38000,accent:'#82a8ef',bg:'#1d2539'},
-  annual:{am:'የአመት ፓኬጅ',en:'Annual Package',amount:140000,accent:'#d69ab6',bg:'#2d2028'},
-  yearly:{am:'የአመት ፓኬጅ',en:'Annual Package',amount:140000,accent:'#d69ab6',bg:'#2d2028'},
-  year:{am:'የአመት ፓኬጅ',en:'Annual Package',amount:140000,accent:'#d69ab6',bg:'#2d2028'}
+  weekly:{am:'የሳምንት ፓኬጅ',en:'Weekly Package',amount:1200,accent:'#65b7c9',bg:'#142b35'},
+  vip_weekly:{am:'VIP የሳምንት ፓኬጅ',en:'VIP Weekly Package',amount:2000,accent:'#c6a6ff',bg:'#282137'},
+  monthly:{am:'የወር ፓኬጅ',en:'Monthly Package',amount:3500,accent:'#70c99a',bg:'#182b23'},
+  thirty_day:{am:'የ30 ቀን ፓኬጅ',en:'30-Day Package',amount:3500,accent:'#e2b86f',bg:'#302719'},
+  quarterly:{am:'የሶስት ወር ፓኬጅ',en:'Quarterly Package',amount:9000,accent:'#82a8ef',bg:'#1d2539'},
+  annual:{am:'የአመት ፓኬጅ',en:'Annual Package',amount:30000,accent:'#d69ab6',bg:'#2d2028'},
+  yearly:{am:'የአመት ፓኬጅ',en:'Annual Package',amount:30000,accent:'#d69ab6',bg:'#2d2028'},
+  year:{am:'የአመት ፓኬጅ',en:'Annual Package',amount:30000,accent:'#d69ab6',bg:'#2d2028'}
  };
  const currentPlan=()=>String(window.appState?.subscription?.plan||'').toLowerCase().replace(/[ -]/g,'_');
  const lang=()=>typeof currentLang!=='undefined'&&currentLang==='en';
@@ -4379,7 +4401,7 @@ body:not(.dark-theme) .sgc-dash-kpi small,body:not(.dark-theme) .sgc-dash-kpi em
 <script id="sgc-stable-package-display-script">
 (function(){
  const $=id=>document.getElementById(id);
- const info={weekly:{am:'የሳምንት ፓኬጅ',en:'Weekly Package',price:3000,days:7,color:'#65b7c9',bg:'#142b35'},vip_weekly:{am:'VIP የሳምንት ፓኬጅ',en:'VIP Weekly Package',price:5000,days:7,color:'#c6a6ff',bg:'#282137'},monthly:{am:'የወር ፓኬጅ',en:'Monthly Package',price:12000,days:30,color:'#70c99a',bg:'#182b23'},thirty_day:{am:'የ30 ቀን ፓኬጅ',en:'30-Day Package',price:12000,days:30,color:'#e2b86f',bg:'#302719'},quarterly:{am:'የሶስት ወር ፓኬጅ',en:'Quarterly Package',price:38000,days:90,color:'#82a8ef',bg:'#1d2539'},annual:{am:'የአመት ፓኬጅ',en:'Annual Package',price:140000,days:365,color:'#d69ab6',bg:'#2d2028'},yearly:{am:'የአመት ፓኬጅ',en:'Annual Package',price:140000,days:365,color:'#d69ab6',bg:'#2d2028'},year:{am:'የአመት ፓኬጅ',en:'Annual Package',price:140000,days:365,color:'#d69ab6',bg:'#2d2028'}};
+ const info={weekly:{am:'የሳምንት ፓኬጅ',en:'Weekly Package',price:1200,days:7,color:'#65b7c9',bg:'#142b35'},vip_weekly:{am:'VIP የሳምንት ፓኬጅ',en:'VIP Weekly Package',price:2000,days:7,color:'#c6a6ff',bg:'#282137'},monthly:{am:'የወር ፓኬጅ',en:'Monthly Package',price:3500,days:30,color:'#70c99a',bg:'#182b23'},thirty_day:{am:'የ30 ቀን ፓኬጅ',en:'30-Day Package',price:3500,days:30,color:'#e2b86f',bg:'#302719'},quarterly:{am:'የሶስት ወር ፓኬጅ',en:'Quarterly Package',price:9000,days:90,color:'#82a8ef',bg:'#1d2539'},annual:{am:'የአመት ፓኬጅ',en:'Annual Package',price:30000,days:365,color:'#d69ab6',bg:'#2d2028'},yearly:{am:'የአመት ፓኬጅ',en:'Annual Package',price:30000,days:365,color:'#d69ab6',bg:'#2d2028'},year:{am:'የአመት ፓኬጅ',en:'Annual Package',price:30000,days:365,color:'#d69ab6',bg:'#2d2028'}};
  function getState(){if(typeof appState!=='undefined'){window.appState=appState;return appState;}return window.appState||{};}
  function render(){const state=getState(),sub=state.subscription||{},key=String(sub.plan||'').toLowerCase().trim().replace(/[ -]/g,'_'),d=info[key],app=$('businessApp');if(!app)return;let b=$('sgcCurrentPackageBadge');if(!b){b=document.createElement('section');b.id='sgcCurrentPackageBadge';b.innerHTML='<div><div class="sgc-package-badge-label"></div><div class="sgc-package-badge-name"></div></div><div class="sgc-package-badge-price"></div>';const h=app.querySelector('.topbar')||app.querySelector('.app-header')||app.querySelector('header')||app.firstElementChild;if(h)h.insertAdjacentElement('afterend',b);else app.prepend(b);}if(!d||!sub.isActive){b.style.display='none';return;}const en=typeof currentLang!=='undefined'&&currentLang==='en';b.style.display='flex';b.style.setProperty('--pkg-accent',d.color);b.style.setProperty('--pkg-bg',d.bg);b.querySelector('.sgc-package-badge-label').textContent=en?'YOUR CURRENT PACKAGE':'የአሁኑ ፓኬጅዎ';b.querySelector('.sgc-package-badge-name').textContent=en?d.en:d.am;b.querySelector('.sgc-package-badge-price').textContent=d.price.toLocaleString()+' ETB · '+(sub.days||d.days)+' '+(en?'days':'ቀን');}
  document.addEventListener('change',e=>{if(e.target&&e.target.id==='selectedPlan')render();});
@@ -4398,7 +4420,7 @@ body:not(.dark-theme) .sgc-dash-kpi small,body:not(.dark-theme) .sgc-dash-kpi em
    const pad=n=>String(n).padStart(2,'0');
    strong.textContent=`${days} ቀን ${pad(hours)}:${pad(mins)}:${pad(secs)}`;
    const expiring=diff<=86400000;
-   if(small)small.textContent=expiring?(lang()?'⚠️ EXPIRES WITHIN 24 HOURS':'⚠️ በ24 ሰአት ውስጥ ይዘጋል'):(lang()?'TIME REMAINING':'ቀሪ ጊዜ');
+   if(small)small.textContent=expiring?(lang()?'⚠️ EXPIRES WITHIN 5 HOURS':'⚠️ በ5 ሰአት ውስጥ ይዘጋል'):(lang()?'TIME REMAINING':'ቀሪ ጊዜ');
    b.classList.toggle('sgc-expiring',expiring);
    if(diff<=0){
      b.classList.add('sgc-expiring');
@@ -5242,6 +5264,99 @@ body.dark-theme #sgcDashboardInsights .sgc-explain{background:#23201a;border-col
   if(document.body) observer.observe(document.body,{childList:true,subtree:true});
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',apply); else apply();
   setTimeout(apply,300); setTimeout(apply,1000); setTimeout(apply,2000);
+})();
+</script>
+
+
+<style id="clickpaye-refresh-final">
+:root{--bg:#f3f7fb;--panel:#ffffff;--text:#142235;--muted:#64758a;--line:#dce6ef;--brand:#168a9b;--brand2:#80d6d0;--orange:#32b7b0;--shadow:0 12px 34px rgba(15,45,70,.08)}
+body.dark-theme{--bg:#0d1824;--panel:#142638;--text:#f2f8fc;--muted:#a8bfce;--line:#28465a;--brand:#39c2bd;--brand2:#8ce6dd;--orange:#43c8c2;background:#0b1520}
+.hero,.launch-board{background:radial-gradient(circle at 88% 0%,#62d8d022,transparent 32%),linear-gradient(110deg,#12374a,#176071 65%,#168b91)!important;border-color:#5ad2cd88!important}
+.sgc-callout,.sgc-adboard,#sgcAdBoard,.sgc-services-ad-board{background:linear-gradient(120deg,#12374a,#176071 60%,#168b91)!important;border-color:#4fc9c5!important}
+.sgc-expiry{left:auto!important;right:8px!important;top:8px!important;transform:none!important;width:min(245px,calc(100vw - 16px))!important;max-width:calc(100vw - 16px)!important;box-sizing:border-box!important;padding:7px 22px 7px 8px!important;border-radius:9px!important;background:#12374a!important;color:#f3ffff!important;border:1px solid #58c8c4!important;box-shadow:0 5px 18px #001c2a33!important;text-align:left!important;line-height:1.35!important;font-size:9px!important;z-index:99999!important}
+.sgc-expiry strong{font-size:9px!important;display:block;padding-right:1px;line-height:1.35!important}.sgc-expiry-actions{display:flex;gap:4px;flex-wrap:wrap;margin-top:4px}.sgc-expiry .btn{font-size:8px!important;padding:4px 6px!important;border-radius:6px!important;min-height:0!important}
+@media(max-width:430px){.sgc-expiry{right:6px!important;top:6px!important;width:min(220px,calc(100vw - 12px))!important;padding:6px 20px 6px 7px!important}.sgc-expiry strong{font-size:8.5px!important}.sgc-expiry-actions{gap:3px}.sgc-expiry .btn{font-size:8px!important;padding:4px 5px!important}}
+</style>
+<script id="clickpaye-final-package-price-and-services">
+(function(){
+ const prices={weekly:1200,vip_weekly:2000,monthly:3500,thirty_day:3500,quarterly:9000,annual:30000,yearly:30000,year:30000};
+ const labels={weekly:'1,200 ETB',vip_weekly:'2,000 ETB',monthly:'3,500 ETB',thirty_day:'3,500 ETB',quarterly:'9,000 ETB',annual:'30,000 ETB',yearly:'30,000 ETB',year:'30,000 ETB'};
+ const extraServices={
+  weekly:['የቀን ሽያጭ ማጠቃለያ','የዝቅተኛ ስቶክ ማሳሰቢያ','የዕለት መዝገብ ባካፕ'],
+  vip_weekly:['ሁሉም የፕሮዳክሽን እና የስፌት ክትትል','የትርፍ እና የካሽ ፍሰት ማጠቃለያ','የስራ ማሳሰቢያዎች'],
+  monthly:['የቀን/ሳምንት የምርት እቅድ','የሰራተኛ ውጤታማነት ማጠቃለያ','የምርት እና ሽያጭ ንጽጽር'],
+  thirty_day:['የቀን/ሳምንት የምርት እቅድ','የሰራተኛ ውጤታማነት ማጠቃለያ','የምርት እና ሽያጭ ንጽጽር'],
+  quarterly:['የወር ንጽጽር ሪፖርት','የትርፍ እና ወጪ ትንታኔ','የንግድ እቅድ ክትትል'],
+  annual:['ሙሉ ዓመታዊ ሪፖርት እና ንጽጽር','የስራ እቅድ እና ታርጌት ክትትል','ሁሉም የላቁ የንግድ መሳሪያዎች']
+ };
+ function planKey(){return String(document.getElementById('selectedPlan')?.value||window.appState?.subscription?.plan||'').toLowerCase().replace(/[ -]/g,'_')}
+ function refresh(){
+  const select=document.getElementById('selectedPlan');
+  if(select){[...select.options].forEach(o=>{const k=String(o.value||'').toLowerCase().replace(/[ -]/g,'_');if(labels[k]){const days=({weekly:7,vip_weekly:7,monthly:30,thirty_day:30,quarterly:90,annual:365,yearly:365,year:365})[k];o.textContent=(o.textContent.split(/[—–-]/)[0].trim())+' — '+labels[k]+' / '+days+' ቀን';}})}
+  document.querySelectorAll('.price-card,[data-plan],.sgc-package-ad-pricebox,#sgcCurrentPackageBadge').forEach(el=>{
+   const key=String(el.getAttribute('data-plan')||el.querySelector('[data-plan]')?.getAttribute('data-plan')||'').toLowerCase().replace(/[ -]/g,'_');
+   if(!labels[key])return;
+   const price=el.querySelector('.price');if(price){const small=price.querySelector('small');price.textContent=labels[key]+' ';if(small)price.appendChild(small)}
+  });
+  const p=planKey();const d=extraServices[p];
+  if(d){document.querySelectorAll('.sgc-plan-full-desc').forEach(el=>{const key=el.closest('.price-card')?.querySelector('[data-plan]')?.getAttribute('data-plan');if(key!==p||el.dataset.extraServicesAdded)return;const ul=el.querySelector('ul');if(ul)d.forEach(t=>{const li=document.createElement('li');li.textContent=t;ul.appendChild(li)});el.dataset.extraServicesAdded='1';});}
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',refresh);else refresh();
+ document.addEventListener('change',e=>{if(e.target?.id==='selectedPlan')refresh()});
+ setInterval(refresh,2500);
+})();
+</script>
+
+
+<!-- ClickPaye targeted fixes: VIP weekly price consistency + functional four-step guide -->
+<style id="clickpaye-guide-vip-fix-style">
+#guidePrev,#guideNext{cursor:pointer;touch-action:manipulation;pointer-events:auto;position:relative;z-index:2}
+#guideDots button{cursor:pointer;touch-action:manipulation;pointer-events:auto;min-width:28px;min-height:28px}
+.guide-stage{position:relative;cursor:pointer}
+.guide-progress span{transition:width .25s ease}
+#sgcVipPricingCard .price{font-weight:900}
+</style>
+<script id="clickpaye-guide-vip-fix-script">
+(function(){
+ 'use strict';
+ const guideSteps=[
+  {amTitle:'የመጀመሪያ ምዝገባ',enTitle:'Register your business',amText:'የንግድዎን መረጃ እና የስልክ ቁጥር ያስገቡ፤ ከዚያ የሚስማማዎትን ፓኬጅ ይምረጡ።',enText:'Enter your business details and phone number, then choose the package that fits your needs.'},
+  {amTitle:'ፓኬጅ ይምረጡ',enTitle:'Choose a package',amText:'የፓኬጅ ዋጋና የቆይታ ጊዜ ይመልከቱ፤ ለምዝገባው የሚስማማዎትን ደረጃ ይምረጡ።',enText:'Review the package price and duration, then select the level you want.'},
+  {amTitle:'ክፍያና ማረጋገጫ',enTitle:'Payment and verification',amText:'የተመረጠውን ፓኬጅ ክፍያ ይፈጽሙና የክፍያ ማረጋገጫ መረጃውን ያስገቡ።',enText:'Pay for your selected package and submit the payment reference for review.'},
+  {amTitle:'ዳሽቦርዱን ይጠቀሙ',enTitle:'Use your dashboard',amText:'ምዝገባው ከተረጋገጠ በኋላ ምርት፣ ሽያጭ፣ እስቶክ፣ ወጪና ትርፍ ይከታተሉ።',enText:'Once activated, track production, sales, stock, expenses and profit from your dashboard.'}
+ ];
+ let guideIndex=0;
+ function isEnglish(){try{return typeof currentLang!=='undefined'&&currentLang==='en'}catch(e){return false}}
+ function renderGuide(){
+  const step=guideSteps[guideIndex];
+  const number=document.getElementById('guideNumber'),title=document.getElementById('guideTitle'),text=document.getElementById('guideText'),progress=document.getElementById('guideProgress'),dots=document.getElementById('guideDots');
+  if(!number||!title||!text)return;
+  const en=isEnglish(); number.textContent=String(guideIndex+1).padStart(2,'0');
+  title.textContent=en?step.enTitle:step.amTitle; text.textContent=en?step.enText:step.amText;
+  if(progress)progress.style.width=((guideIndex+1)/guideSteps.length*100)+'%';
+  if(dots)dots.querySelectorAll('[data-step]').forEach((b,i)=>{b.classList.toggle('selected',i===guideIndex);b.setAttribute('aria-current',i===guideIndex?'step':'false');});
+  const prev=document.getElementById('guidePrev'),next=document.getElementById('guideNext');
+  if(prev){prev.disabled=guideIndex===0;prev.style.opacity=guideIndex===0?'.45':'1';}
+  if(next){next.disabled=guideIndex===guideSteps.length-1;next.style.opacity=guideIndex===guideSteps.length-1?'.45':'1';}
+ }
+ window.setGuideStep=function(n){const value=Number(n);if(!Number.isFinite(value))return;guideIndex=Math.max(0,Math.min(guideSteps.length-1,Math.trunc(value)));renderGuide();};
+ window.nextGuideStep=function(){window.setGuideStep(guideIndex+1);};
+ window.prevGuideStep=function(){window.setGuideStep(guideIndex-1);};
+ function fixVipPrice(){
+  const priceText='2,000 ETB';
+  const card=document.getElementById('sgcVipPricingCard');
+  if(card){const price=card.querySelector('.price');if(price){let small=price.querySelector('small');if(!small){small=document.createElement('small');price.appendChild(small);}price.firstChild.textContent='2,000 ';small.textContent='ETB / 7 days';}}
+  const sel=document.getElementById('selectedPlan');
+  if(sel){const opt=sel.querySelector('option[value="vip_weekly"]');if(opt)opt.textContent=(isEnglish()?'VIP Weekly':'የVIP ሳምንት ፓኬጅ')+' — '+priceText+' / 7 '+(isEnglish()?'days':'ቀን');}
+  const details=document.getElementById('selectedPlanDetails');
+  if(details&&sel&&sel.value==='vip_weekly')details.textContent=(isEnglish()?'VIP Weekly':'VIP የሳምንት ፓኬጅ')+' · 7 '+(isEnglish()?'days':'ቀን')+' · '+priceText;
+ }
+ function init(){renderGuide();fixVipPrice();}
+ document.addEventListener('click',function(e){const dot=e.target.closest('#guideDots [data-step]');if(dot){e.preventDefault();window.setGuideStep(dot.getAttribute('data-step'));}});
+ document.addEventListener('change',function(e){if(e.target&&e.target.id==='selectedPlan')fixVipPrice();});
+ document.addEventListener('click',function(e){if(e.target.closest('.language-toggle,[data-lang],#languageToggle'))setTimeout(init,50);});
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+ setTimeout(init,300);setTimeout(init,1200);setInterval(fixVipPrice,3000);
 })();
 </script>
 
