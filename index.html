@@ -1023,7 +1023,7 @@ const i18n = {
     lbl_owner_title: "GARMENT OWNER & WORKFLOW", btn_dash_prod: "👕 ኒዉ ፕሮዳክሽን", btn_dash_sales: "💰 ሪከርድ ሴል", btn_dash_stock: "📦 አድ እስቶክ",
     hero_desc: "ምርት • ሽያጭ • እስቶክ • ትርፍ — ሁሉንም በአንድ ፕሮፌሽናል ዳሽቦርድ ይመሩ።",
     st_rev: "አጠቃላይ ገቢ", st_exp: "አጠቃላይ ወጪ", st_net: "የተጣራ ትርፍ", st_stk: "የእስቶክ ቫልዩ (Kg)",
-    st_rev_sub: "ከሽያጭ እና ከሌሎች ገቢዎች", st_exp_sub: "የተሸጡ ምርቶች ወጪ + ኦፕሬሽን ወጪ", st_net_sub: "ገቢ − ጠቅላላ ወጪ (ያልተሸጠ ምርት አይቀነስም)", st_stk_sub: "በእጅ ያለ አጠቃላይ ኪሎ",
+    st_rev_sub: "ከሽያጭ እና ከሌሎች ገቢዎች", st_exp_sub: "የተደረጉ አጠቃላይ ወጪዎች", st_net_sub: "የተሰላ የተጣራ ትርፍ", st_stk_sub: "በእጅ ያለ አጠቃላይ ኪሎ",
     chart_title: "የሳምንታዊ ፋይናንስ እንቅስቃሴ", lg_inc: "ገቢ", lg_exp: "ወጪ", dash_quick_sum: "ፈጣን ማጠቃለያ",
     lbl_act_orders: "ንቁ ኦርደሮች", lbl_total_prod: "የተመረቱ ምርቶች", lbl_low_stk: "ያለቁ/ማስጠንቀቂያ ላይ ያሉ እስቶኮች",
     prod_head_t: "የምርት ምዝገባ (Production Control)", prod_head_d: "ምርት ከስቶክ ዕቃ ይቀንሳል፤ ወጪ፣ ገቢ እና ትርፍ በራሱ ያሰላል።", btn_add_batch: "＋ አዲስ ምርት መዝግብ",
@@ -1107,7 +1107,7 @@ const i18n = {
     lbl_owner_title: "GARMENT OWNER & WORKFLOW", btn_dash_prod: "👕 New Production", btn_dash_sales: "💰 Record Sale", btn_dash_stock: "📦 Add Stock",
     hero_desc: "Production • Sales • Inventory • Profit — manage everything in one professional dashboard.",
     st_rev: "Total Revenue", st_exp: "Total Expenses", st_net: "Net Profit", st_stk: "Stock Value (Kg)",
-    st_rev_sub: "From sales & income", st_exp_sub: "Cost of goods sold + operating expenses", st_net_sub: "Revenue minus total expenses; unsold production remains inventory", st_stk_sub: "Total available stock weight",
+    st_rev_sub: "From sales & income", st_exp_sub: "Operational expenses", st_net_sub: "Calculated net earnings", st_stk_sub: "Total available stock weight",
     chart_title: "Weekly Cashflow Trend", lg_inc: "Income", lg_exp: "Expense", dash_quick_sum: "Quick Overview",
     lbl_act_orders: "Active Orders", lbl_total_prod: "Items Produced", lbl_low_stk: "Low Stock Alert Items",
     prod_head_t: "Production Control", prod_head_d: "Deducts material from stock in Kg; calculates cost, revenue & profit automatically.", btn_add_batch: "＋ Add Batch",
@@ -2598,14 +2598,9 @@ function renderAllComponents(){
   if(side)side.innerHTML=`${appState.profile.garmentName} <span style="color:#d9bd82;letter-spacing:1.4px">PLATINUM</span>`;
   if(hero)hero.textContent=appState.profile.garmentName;
   if(owner)owner.textContent=(currentLang==="en"?"Owner: ":"የባለቤቱ ስም፦ ")+appState.profile.ownerName;
-  // Financial statement basis: revenue minus cost of goods actually sold minus operating expenses.
-  // Production costs remain inventory until the related finished goods are sold.
   const totalRev=sumBy(appState.sales,s=>s.totalPrice);
-  const salesGrossProfit=sumBy(appState.sales,s=>Number.isFinite(Number(s.profit))?s.profit:(Number(s.totalPrice)||0)-(Number(s.unitCost)||0)*(Number(s.qty)||0));
-  const operatingExpenses=sumBy(appState.expenses,e=>e.amount);
-  const costOfGoodsSold=totalRev-salesGrossProfit;
-  const totalExp=costOfGoodsSold+operatingExpenses;
-  const netProfit=totalRev-totalExp;
+  const totalExp=sumBy(appState.expenses,e=>e.amount)+sumBy(appState.production,p=>p.totalCost);
+  const netProfit=sumBy(appState.sales,s=>s.profit)-sumBy(appState.expenses,e=>e.amount);
   const totalKg=sumBy(appState.stock,st=>st.qtyKg);
   const totalStockCost=sumBy(appState.stock,st=>st.qtyKg*st.unitCostKg);
   const warehouseKg=sumBy(appState.stock,st=>String(st.location||"").includes("መጋዘን")||String(st.location||"").toLowerCase().includes("warehouse")?st.qtyKg:0);
@@ -2618,7 +2613,6 @@ function renderAllComponents(){
   set("dashProducedValue",produced+" Pcs");set("dashProducedCost",(currentLang==="en"?"Production cost: ":"የምርት ወጪ: ")+producedCost.toFixed(2)+" ETB");
   set("dashSoldValue",sold+" Pcs");set("dashSoldRevenue",(currentLang==="en"?"Revenue: ":"ገቢ: ")+totalRev.toFixed(2)+" ETB");
   set("dashStockCost",totalStockCost.toFixed(2)+" ETB");set("dashStockCostKg",totalKg.toFixed(2)+" Kg");set("dashWarehouseKg",warehouseKg.toFixed(2)+" Kg");
-  const finNoteId="sgcFinancialBasisNote";let finNote=document.getElementById(finNoteId);if(!finNote){finNote=document.createElement("div");finNote.id=finNoteId;finNote.className="stat-note";finNote.style.cssText="grid-column:1/-1;margin:4px 2px 0;padding:9px 12px;border-left:3px solid var(--brand2);background:rgba(180,150,90,.08);border-radius:8px;";const stats=document.querySelector("#page-dashboard > .grid.stats");if(stats)stats.insertAdjacentElement("afterend",finNote);}if(finNote)finNote.textContent=currentLang==="en"?"Calculation: Net profit = sales revenue − cost of goods sold − operating expenses. Production cost for unsold items remains in inventory and is not deducted twice.":"የስሌት መርህ፦ የተጣራ ትርፍ = የሽያጭ ገቢ − የተሸጡ ምርቶች ወጪ − የኦፕሬሽን ወጪ። ያልተሸጠ ምርት ወጪ በእስቶክ ውስጥ ይቆያል፤ ሁለት ጊዜ አይቀነስም።";
   // Preserve all original component renders.
   ["renderStockTable","renderProductionTable","renderSalesTable","renderExpenseTable","renderProductsTable","renderOrdersTable","renderCustomersTable","renderSuppliersTable","renderEmployeesTable","renderReportsPage","renderWalletPage","renderAccountantPage","renderPlannerPage"].forEach(fn=>{try{if(typeof window[fn]==="function")window[fn]();}catch(err){console.warn("Render issue in "+fn,err);}});
 }
@@ -3702,10 +3696,10 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
  const alarm=document.createElement('div');alarm.id='sgcOperationalAlarm';alarm.style.display='none';alarm.className='sgc-alarm-strip';alarm.innerHTML=`<span id="sgcOperationalAlarmText"></span><button type="button" id="sgcDismissAlarm">${am('አላርሙን ጊዜያዊ አጥፋ','Dismiss alert')}</button>`;const hero=dash.querySelector('.hero');if(hero)hero.insertAdjacentElement('afterend',alarm);$('sgcDismissAlarm').onclick=()=>{window.__sgcAlarmDismissed=window.__sgcAlarmKey||'';alarm.style.display='none';dash.classList.remove('sgc-alarm-overlay');};
  }
  function refreshDashboardPanels(){ensureDashboardPanels();const s=appState;if(!s)return;const products=s.products||[],production=s.production||[],sales=s.sales||[],stock=s.stock||[],sewing=s.sewing||[];
- const producedTotal=production.reduce((a,x)=>a+num(x.quantity),0),soldTotal=sales.reduce((a,x)=>a+num(x.qty),0),producedCost=production.reduce((a,x)=>a+num(x.totalCost),0),salesRevenue=sales.reduce((a,x)=>a+num(x.totalPrice),0),salesProfit=sales.reduce((a,x)=>a+(Number.isFinite(Number(x.profit))?num(x.profit):num(x.totalPrice)-num(x.unitCost)*num(x.qty)),0),expenseTotal=(s.expenses||[]).reduce((a,x)=>a+num(x.amount),0),expectedProfit=salesProfit-expenseTotal;
+ const producedTotal=production.reduce((a,x)=>a+num(x.quantity),0),soldTotal=sales.reduce((a,x)=>a+num(x.qty),0),producedCost=production.reduce((a,x)=>a+num(x.totalCost),0),salesRevenue=sales.reduce((a,x)=>a+num(x.totalPrice),0),salesProfit=sales.reduce((a,x)=>a+num(x.profit),0),expenseTotal=(s.expenses||[]).reduce((a,x)=>a+num(x.amount),0),expectedProfit=salesProfit-expenseTotal;
  const byName={};products.forEach(p=>{const k=String(p.name||'Product');byName[k]={name:k,produced:0,sold:0,available:num(p.finishedStockQty),price:num(p.unitPrice)};});production.forEach(x=>{const k=String(x.productName||x.name||'Other');byName[k]=byName[k]||{name:k,produced:0,sold:0,available:0,price:num(x.unitPrice||x.piecePrice)};byName[k].produced+=num(x.quantity);if(!byName[k].price)byName[k].price=num(x.unitPrice||x.piecePrice);});sales.forEach(x=>{const k=String(x.productName||'Other');byName[k]=byName[k]||{name:k,produced:0,sold:0,available:0,price:num(x.unitPrice)};byName[k].sold+=num(x.qty);if(!byName[k].price)byName[k].price=num(x.unitPrice);});
  let made=0,sold=0,unsold=0,unsoldVal=0;const productRows=Object.values(byName).map(p=>{made+=p.produced;sold+=p.sold;const avail=Number.isFinite(p.available)&&p.available>0?p.available:Math.max(0,p.produced-p.sold);unsold+=avail;const value=avail*p.price;unsoldVal+=value;return `<tr><td><b>${esc(p.name)}</b></td><td>${p.produced.toLocaleString()} pcs</td><td>${p.sold.toLocaleString()} pcs</td><td>${avail.toLocaleString()} pcs</td><td>${money(value)}</td></tr>`;}).join('');
- const productUsedKg=production.reduce((a,x)=>a+num(x.usedStockKg??x.fabricKg??x.usedKg??x.cuttingKgUsed),0),fabricCost=production.reduce((a,x)=>a+num(x.usedStockKg??x.fabricKg??x.usedKg??x.cuttingKgUsed)*num(x.unitCostKg),0),productProfit=salesProfit-expenseTotal; if($('sgcProductKpis'))$('sgcProductKpis').innerHTML=[[am('አጠቃላይ የተመረተ','Total produced'),made.toLocaleString()+' pcs',am('የተመዘገበ ምርት ብዛት','recorded production quantity')],[am('አጠቃላይ ወጪ','Total expense'),money(producedCost),am('የምርት ወጪ በመዝገብ','recorded production cost')],[am('አጠቃላይ ገቢ','Total income'),money(salesRevenue),am('የተመዘገበ የሽያጭ ገቢ','recorded sales revenue')],[am('የተጣራ ትርፍ','Net profit'),money(productProfit),am('የሽያጭ ጠቅላላ ትርፍ − ኦፕሬሽን ወጪ','sales gross profit minus operating expenses')],[am('ለምርት የተጠቀመ ጨርቅ','Fabric used in production'),productUsedKg.toLocaleString(undefined,{maximumFractionDigits:2})+' kg',am('በመዝገብ የተመዘገበ','recorded usage')],[am('የተጠቀመ ጨርቅ ጠቅላላ ዋጋ','Total fabric cost used'),money(fabricCost),am('ኪሎ × የአንድ ኪሎ ዋጋ','kg × cost per kg')]].map(x=>`<div class="sgc-dash-kpi"><small>${x[0]}</small><strong>${x[1]}</strong><em>${x[2]}</em></div>`).join('');if($('sgcProductStockRows'))$('sgcProductStockRows').innerHTML=productRows||`<tr><td colspan="5">${am('የምርት ወይም ሽያጭ መረጃ ሲመዘገብ እዚህ በራስ-ሰር ይታያል።','Product and sales details appear here after records are added.')}</td></tr>`;
+ const productUsedKg=production.reduce((a,x)=>a+num(x.usedStockKg??x.fabricKg??x.usedKg??x.cuttingKgUsed),0),fabricCost=production.reduce((a,x)=>a+num(x.usedStockKg??x.fabricKg??x.usedKg??x.cuttingKgUsed)*num(x.unitCostKg),0),productProfit=salesRevenue-producedCost; if($('sgcProductKpis'))$('sgcProductKpis').innerHTML=[[am('አጠቃላይ የተመረተ','Total produced'),made.toLocaleString()+' pcs',am('የተመዘገበ ምርት ብዛት','recorded production quantity')],[am('አጠቃላይ ወጪ','Total expense'),money(producedCost),am('የምርት ወጪ በመዝገብ','recorded production cost')],[am('አጠቃላይ ገቢ','Total income'),money(salesRevenue),am('የተመዘገበ የሽያጭ ገቢ','recorded sales revenue')],[am('የምርት ትርፍ ግምት','Estimated product profit'),money(productProfit),am('ገቢ − የምርት ወጪ','income minus production cost')],[am('ለምርት የተጠቀመ ጨርቅ','Fabric used in production'),productUsedKg.toLocaleString(undefined,{maximumFractionDigits:2})+' kg',am('በመዝገብ የተመዘገበ','recorded usage')],[am('የተጠቀመ ጨርቅ ጠቅላላ ዋጋ','Total fabric cost used'),money(fabricCost),am('ኪሎ × የአንድ ኪሎ ዋጋ','kg × cost per kg')]].map(x=>`<div class="sgc-dash-kpi"><small>${x[0]}</small><strong>${x[1]}</strong><em>${x[2]}</em></div>`).join('');if($('sgcProductStockRows'))$('sgcProductStockRows').innerHTML=productRows||`<tr><td colspan="5">${am('የምርት ወይም ሽያጭ መረጃ ሲመዘገብ እዚህ በራስ-ሰር ይታያል።','Product and sales details appear here after records are added.')}</td></tr>`;
  if($('sgcProductStockNote'))$('sgcProductStockNote').innerHTML=made===0&&sold===0?am('ማብራሪያ፦ ምርት እና ሽያጭ ሲመዘገቡ ብዛቱና ዋጋው በራስ-ሰር ይሰላል።','Explanation: quantity and value calculate automatically after production and sales entries.'):am(`ማብራሪያ፦ በመዝገብ ላይ ${made.toLocaleString()} ፍሬ ተመርቷል፣ ${sold.toLocaleString()} ፍሬ ተሽጧል፣ የሚቀረው ብዛት ${unsold.toLocaleString()} ፍሬ እና ግምታዊ ዋጋ ${money(unsoldVal)} ነው። ይህ በመዝገቦቹ ላይ የተመሠረተ ግምት ነው፤ አካላዊ ስቶክን ያረጋግጡ።`,`Explanation: records show ${made.toLocaleString()} produced and ${sold.toLocaleString()} sold, with ${unsold.toLocaleString()} pieces and estimated value ${money(unsoldVal)} remaining. This is record-based; verify physical stock.`);
  const totalKg=stock.reduce((a,x)=>a+num(x.qtyKg??x.qty??x.kg),0),stockValue=stock.reduce((a,x)=>a+num(x.qtyKg??x.qty??x.kg)*num(x.unitCostKg??x.costPerKg??x.unitCost),0);const usedKg=production.reduce((a,x)=>a+num(x.fabricKg??x.usedKg??x.consumedKg??x.fabricUsedKg??x.totalFabricKg),0);const lows=stock.filter(x=>num(x.qtyKg??x.qty??x.kg)<=num(x.minAlertKg??x.minAlert??x.minQty??5));
  if($('sgcFabricKpis'))$('sgcFabricKpis').innerHTML=[[am('ጠቅላላ ያለ ጨርቅ','Total fabric available'),totalKg.toLocaleString(undefined,{maximumFractionDigits:2})+' kg',money(stockValue)+' '+am('የስቶክ ዋጋ','stock value')],[am('ለምርት የተጠቀመ ኪሎ (በመዝገብ)','Recorded fabric used'),usedKg.toLocaleString(undefined,{maximumFractionDigits:2})+' kg',am('የሚታወቁ የኪሎ መስኮች ብቻ','only recorded kg fields')],[am('ዝቅተኛ እስቶክ አላርም','Low-stock alerts'),lows.length+' '+am('የጨርቅ አይነት','fabric item(s)'),am('የተወሰነ የአላርም መጠን','configured thresholds')]].map(x=>`<div class="sgc-dash-kpi"><small>${x[0]}</small><strong>${x[1]}</strong><em>${x[2]}</em></div>`).join('');if($('sgcFabricRows'))$('sgcFabricRows').innerHTML=stock.map(x=>{const q=num(x.qtyKg??x.qty??x.kg),unit=num(x.unitCostKg??x.costPerKg??x.unitCost),min=num(x.minAlertKg??x.minAlert??x.minQty??5),low=q<=min;return `<tr><td><b>${esc(x.name||x.fabricName||'—')}</b></td><td style="color:${low?'#d92332':'#168653'};font-weight:900">${q.toLocaleString(undefined,{maximumFractionDigits:2})} kg</td><td>${money(unit)}</td><td>${money(q*unit)}</td><td>${min} kg</td><td><span style="font-weight:900;color:${low?'#d92332':'#168653'}">${low?'🔴 '+am('ዝቅተኛ ነው','LOW STOCK'):'🟢 '+am('ደህና ነው','OK')}</span></td></tr>`;}).join('')||`<tr><td colspan="6">${am('ጨርቅ ሲመዘገብ እዚህ ይታያል።','Fabric records will appear here.')}</td></tr>`;
@@ -5473,6 +5467,80 @@ body.dark-theme .sgc-payment-choice-details h4{color:#f0dba9}body.dark-theme .sg
 @media(max-width:480px){.sgc-support-card{padding:24px 16px 18px}.sgc-support-row{grid-template-columns:1fr}.sgc-support-row .sgc-support-call{width:100%}#sgcLaunchIntro .intro-card{border-radius:22px;padding:26px 16px 18px}#sgcLaunchIntro .intro-orbit{width:96px;height:96px}}
 @media(prefers-reduced-motion:reduce){#sgcLaunchIntro,#sgcLaunchIntro *,.sgc-support-card{animation:none!important;transition:none!important}}
 </style>
+
+<script id="sgc-financial-calculation-correction">
+(function(){
+  function sgcFinancialTotals(){
+    if(typeof appState === "undefined" || !appState) return null;
+    const sum = (items, getter) => (Array.isArray(items) ? items : []).reduce((total, item) => {
+      const value = Number(getter(item));
+      return total + (Number.isFinite(value) ? value : 0);
+    }, 0);
+    const income = sum(appState.sales, x => x && x.totalPrice);
+    const operatingExpenses = sum(appState.expenses, x => x && x.amount);
+    const productionExpenses = sum(appState.production, x => x && x.totalCost);
+    const expenses = operatingExpenses + productionExpenses;
+    // Per the requested business rule: total expenses minus total income.
+    const net = expenses - income;
+    return { income, operatingExpenses, productionExpenses, expenses, net, tax: net > 0 ? net * 0.15 : 0 };
+  }
+
+  function sgcSetFinancialValue(id, value, positiveMeaning){
+    const el = document.getElementById(id);
+    if(!el) return;
+    el.textContent = Number(value).toFixed(2) + " ETB";
+    el.classList.remove("positive", "negative");
+    el.classList.add(value >= 0 ? "positive" : "negative");
+  }
+
+  function sgcRefreshFinancialSummaries(){
+    const t = sgcFinancialTotals();
+    if(!t) return;
+    // Main dashboard
+    sgcSetFinancialValue("dashRev", t.income, "income");
+    sgcSetFinancialValue("dashExp", t.expenses, "expense");
+    sgcSetFinancialValue("dashProfit", t.net, "profit");
+    // Reports
+    sgcSetFinancialValue("repTotInc", t.income, "income");
+    sgcSetFinancialValue("repTotExp", t.expenses, "expense");
+    sgcSetFinancialValue("repTotProf", t.net, "profit");
+    // Profit wallet
+    sgcSetFinancialValue("walProfit", t.net, "profit");
+    sgcSetFinancialValue("walExpense", t.expenses, "expense");
+    sgcSetFinancialValue("walTax", t.tax, "income");
+    // Accountant summary
+    sgcSetFinancialValue("accRev", t.income, "income");
+    sgcSetFinancialValue("accExp", t.expenses, "expense");
+    sgcSetFinancialValue("accNet", t.net, "profit");
+    sgcSetFinancialValue("accTax", t.tax, "income");
+
+    const note = document.querySelector('#page-dashboard [data-i18n="st_net_sub"]');
+    if(note) note.textContent = "የተጣራ ልዩነት = አጠቃላይ ወጪ − አጠቃላይ ገቢ";
+    return t;
+  }
+
+  // Ensure every normal page refresh ends with one consistent calculation.
+  ["renderAllComponents","renderReportsPage","renderWalletPage","renderAccountantPage"].forEach(function(name){
+    const original = window[name];
+    if(typeof original !== "function" || original.__sgcFinancialWrapped) return;
+    const wrapped = function(){
+      const result = original.apply(this, arguments);
+      sgcRefreshFinancialSummaries();
+      return result;
+    };
+    wrapped.__sgcFinancialWrapped = true;
+    window[name] = wrapped;
+  });
+
+  if(document.readyState === "loading"){
+    document.addEventListener("DOMContentLoaded", sgcRefreshFinancialSummaries);
+  } else {
+    setTimeout(sgcRefreshFinancialSummaries, 0);
+  }
+  window.sgcRecalculateFinancialSummary = sgcRefreshFinancialSummaries;
+})();
+</script>
+
 </body>
 </html>
 
