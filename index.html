@@ -3699,7 +3699,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
  const producedTotal=production.reduce((a,x)=>a+num(x.quantity??x.qty??x.produced??x.pieces),0),soldTotal=sales.reduce((a,x)=>a+num(x.qty),0),producedCost=production.reduce((a,x)=>a+num(x.totalCost??x.totalProductionCost??x.cost??x.amount),0),salesRevenue=sales.reduce((a,x)=>a+num(x.totalPrice??x.total??x.amount),0),salesProfit=sales.reduce((a,x)=>a+num(x.profit??x.salesProfit??x.grossProfit),0),expenseTotal=(s.expenses||[]).reduce((a,x)=>a+num(x.amount??x.total??x.cost),0),expectedProfit=salesProfit-expenseTotal;
  const byName={};products.forEach(p=>{const k=String(p.name||'Product');byName[k]={name:k,produced:0,sold:0,price:num(p.unitPrice)};});production.forEach(x=>{const k=String(x.productName||x.name||'Other');byName[k]=byName[k]||{name:k,produced:0,sold:0,price:num(x.unitPrice||x.piecePrice)};byName[k].produced+=num(x.quantity??x.qty??x.produced??x.pieces);if(!byName[k].price)byName[k].price=num(x.unitPrice||x.piecePrice);});sales.forEach(x=>{const k=String(x.productName||'Other');byName[k]=byName[k]||{name:k,produced:0,sold:0,price:num(x.unitPrice)};byName[k].sold+=num(x.qty);if(!byName[k].price)byName[k].price=num(x.unitPrice);});
  let made=0,sold=0,unsold=0,unsoldVal=0;const productRows=Object.values(byName).map(p=>{made+=p.produced;sold+=p.sold;const avail=Math.max(0,p.produced-p.sold);unsold+=avail;const value=avail*p.price;unsoldVal+=value;return `<tr><td><b>${esc(p.name)}</b></td><td>${p.produced.toLocaleString()} pcs</td><td>${p.sold.toLocaleString()} pcs</td><td>${avail.toLocaleString()} pcs</td><td>${money(value)}</td></tr>`;}).join('');
- const productUsedKg=production.reduce((a,x)=>a+num(x.usedStockKg??x.fabricKg??x.usedKg??x.cuttingKgUsed),0),fabricCost=production.reduce((a,x)=>a+num(x.usedStockKg??x.fabricKg??x.usedKg??x.cuttingKgUsed)*num(x.unitCostKg),0),productProfit=salesProfit; if($('sgcProductKpis'))$('sgcProductKpis').innerHTML=[[am('አጠቃላይ የተመረተ','Total produced'),made.toLocaleString()+' pcs',am('የተመዘገበ ምርት ብዛት','recorded production quantity')],[am('አጠቃላይ የምርት ወጪ','Total production cost'),money(producedCost),am('የሁሉም የተመዘገቡ ምርቶች ወጪ','cost recorded for all production batches')],[am('አጠቃላይ ገቢ','Total income'),money(salesRevenue),am('የተመዘገበ የሽያጭ ገቢ','recorded sales revenue')],[am('የሽያጭ ትርፍ (ከተሸጡ እቃዎች ብቻ)','Sales profit (sold items only)'),money(productProfit),am('ከተሸጡት እቃዎች የተመዘገበ ትርፍ ብቻ','recorded profit from sold items only')],[am('ለምርት የተጠቀመ ጨርቅ','Fabric used in production'),productUsedKg.toLocaleString(undefined,{maximumFractionDigits:2})+' kg',am('በመዝገብ የተመዘገበ','recorded usage')],[am('የተጠቀመ ጨርቅ ጠቅላላ ዋጋ','Total fabric cost used'),money(fabricCost),am('ኪሎ × የአንድ ኪሎ ዋጋ','kg × cost per kg')]].map(x=>`<div class="sgc-dash-kpi"><small>${x[0]}</small><strong>${x[1]}</strong><em>${x[2]}</em></div>`).join('');if($('sgcProductStockRows'))$('sgcProductStockRows').innerHTML=productRows||`<tr><td colspan="5">${am('የምርት ወይም ሽያጭ መረጃ ሲመዘገብ እዚህ በራስ-ሰር ይታያል።','Product and sales details appear here after records are added.')}</td></tr>`;
+ const productUsedKg=production.reduce((a,x)=>a+num(x.usedStockKg??x.fabricKg??x.usedKg??x.cuttingKgUsed),0),fabricCost=production.reduce((a,x)=>a+num(x.usedStockKg??x.fabricKg??x.usedKg??x.cuttingKgUsed)*num(x.unitCostKg),0),productProfit=salesProfit-expenseTotal; if($('sgcProductKpis'))$('sgcProductKpis').innerHTML=[[am('አጠቃላይ የተመረተ','Total produced'),made.toLocaleString()+' pcs',am('የተመዘገበ ምርት ብዛት','recorded production quantity')],[am('አጠቃላይ የምርት ወጪ','Total production cost'),money(producedCost),am('የሁሉም የተመዘገቡ ምርቶች ወጪ','cost recorded for all production batches')],[am('አጠቃላይ ገቢ','Total income'),money(salesRevenue),am('የተመዘገበ የሽያጭ ገቢ','recorded sales revenue')],[am('የሽያጭ ትርፍ ከወጪ በኋላ','Sales profit after expenses'),money(productProfit),am('የተመዘገበ የሽያጭ ትርፍ − አጠቃላይ የኦፕሬሽን ወጪ','recorded sales profit minus operating expenses')],[am('ለምርት የተጠቀመ ጨርቅ','Fabric used in production'),productUsedKg.toLocaleString(undefined,{maximumFractionDigits:2})+' kg',am('በመዝገብ የተመዘገበ','recorded usage')],[am('የተጠቀመ ጨርቅ ጠቅላላ ዋጋ','Total fabric cost used'),money(fabricCost),am('ኪሎ × የአንድ ኪሎ ዋጋ','kg × cost per kg')]].map(x=>`<div class="sgc-dash-kpi"><small>${x[0]}</small><strong>${x[1]}</strong><em>${x[2]}</em></div>`).join('');if($('sgcProductStockRows'))$('sgcProductStockRows').innerHTML=productRows||`<tr><td colspan="5">${am('የምርት ወይም ሽያጭ መረጃ ሲመዘገብ እዚህ በራስ-ሰር ይታያል።','Product and sales details appear here after records are added.')}</td></tr>`;
  if($('sgcProductStockNote'))$('sgcProductStockNote').innerHTML=made===0&&sold===0?am('ማብራሪያ፦ ምርት እና ሽያጭ ሲመዘገቡ ብዛቱና ዋጋው በራስ-ሰር ይሰላል።','Explanation: quantity and value calculate automatically after production and sales entries.'):am(`ማብራሪያ፦ በመዝገብ ላይ ${made.toLocaleString()} ፍሬ ተመርቷል፣ ${sold.toLocaleString()} ፍሬ ተሽጧል፣ የሚቀረው ብዛት ${unsold.toLocaleString()} ፍሬ እና ግምታዊ ዋጋ ${money(unsoldVal)} ነው። ይህ በመዝገቦቹ ላይ የተመሠረተ ግምት ነው፤ አካላዊ ስቶክን ያረጋግጡ።`,`Explanation: records show ${made.toLocaleString()} produced and ${sold.toLocaleString()} sold, with ${unsold.toLocaleString()} pieces and estimated value ${money(unsoldVal)} remaining. This is record-based; verify physical stock.`);
  const totalKg=stock.reduce((a,x)=>a+num(x.qtyKg??x.qty??x.kg),0),stockValue=stock.reduce((a,x)=>a+num(x.qtyKg??x.qty??x.kg)*num(x.unitCostKg??x.costPerKg??x.unitCost),0);const usedKg=production.reduce((a,x)=>a+num(x.fabricKg??x.usedKg??x.consumedKg??x.fabricUsedKg??x.totalFabricKg),0);const lows=stock.filter(x=>num(x.qtyKg??x.qty??x.kg)<=num(x.minAlertKg??x.minAlert??x.minQty??5));
  if($('sgcFabricKpis'))$('sgcFabricKpis').innerHTML=[[am('ጠቅላላ ያለ ጨርቅ','Total fabric available'),totalKg.toLocaleString(undefined,{maximumFractionDigits:2})+' kg',money(stockValue)+' '+am('የስቶክ ዋጋ','stock value')],[am('ለምርት የተጠቀመ ኪሎ (በመዝገብ)','Recorded fabric used'),usedKg.toLocaleString(undefined,{maximumFractionDigits:2})+' kg',am('የሚታወቁ የኪሎ መስኮች ብቻ','only recorded kg fields')],[am('ዝቅተኛ እስቶክ አላርም','Low-stock alerts'),lows.length+' '+am('የጨርቅ አይነት','fabric item(s)'),am('የተወሰነ የአላርም መጠን','configured thresholds')]].map(x=>`<div class="sgc-dash-kpi"><small>${x[0]}</small><strong>${x[1]}</strong><em>${x[2]}</em></div>`).join('');if($('sgcFabricRows'))$('sgcFabricRows').innerHTML=stock.map(x=>{const q=num(x.qtyKg??x.qty??x.kg),unit=num(x.unitCostKg??x.costPerKg??x.unitCost),min=num(x.minAlertKg??x.minAlert??x.minQty??5),low=q<=min;return `<tr><td><b>${esc(x.name||x.fabricName||'—')}</b></td><td style="color:${low?'#d92332':'#168653'};font-weight:900">${q.toLocaleString(undefined,{maximumFractionDigits:2})} kg</td><td>${money(unit)}</td><td>${money(q*unit)}</td><td>${min} kg</td><td><span style="font-weight:900;color:${low?'#d92332':'#168653'}">${low?'🔴 '+am('ዝቅተኛ ነው','LOW STOCK'):'🟢 '+am('ደህና ነው','OK')}</span></td></tr>`;}).join('')||`<tr><td colspan="6">${am('ጨርቅ ሲመዘገብ እዚህ ይታያል።','Fabric records will appear here.')}</td></tr>`;
@@ -5552,6 +5552,99 @@ body.dark-theme .sgc-payment-choice-details h4{color:#f0dba9}body.dark-theme .sg
 })();
 </script>
 
+\n<script id="reliable-page-print-v2">
+(function(){
+  const activeLang=()=>((typeof currentLang!=='undefined'&&currentLang)||window.currentLang||'am');
+  const printLabel=()=> (activeLang()==='en'?'🖨️ Print this information':'🖨️ ይህን መረጃ ፕሪንት');
+  const dailyLabel=()=> (activeLang()==='en'?'📅 Daily report':'📅 የዕለት ሪፖርት');
+
+  function addPagePrintButtons(){
+    document.querySelectorAll('.page[id^="page-"]').forEach(page=>{
+      let tools=page.querySelector(':scope > .service-report-tools');
+      if(tools && tools.dataset.printV2==='1') return;
+      if(!tools){
+        tools=document.createElement('div');
+        tools.className='service-report-tools no-print action-tools';
+        tools.style.cssText='display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap;margin:0 0 12px;';
+        const head=page.querySelector('.section-head');
+        if(head) head.appendChild(tools); else page.insertBefore(tools,page.firstChild);
+      }
+      tools.innerHTML='';
+      tools.dataset.printV2='1';
+      const daily=document.createElement('button');
+      daily.type='button'; daily.className='btn daily-report-btn'; daily.textContent=dailyLabel();
+      daily.addEventListener('click',()=>{if(typeof window.openDailyReport==='function')window.openDailyReport();else if(typeof window.renderDailyReportModal==='function')window.renderDailyReportModal();});
+      const print=document.createElement('button');
+      print.type='button'; print.className='btn primary'; print.textContent=printLabel();
+      print.addEventListener('click',()=>window.printServiceReport(page.id));
+      tools.append(daily,print);
+    });
+  }
+
+  function printServiceReport(pageId){
+    const source=document.getElementById(pageId);
+    if(!source){alert(activeLang()==='en'?'The selected information page was not found.':'የተመረጠው የመረጃ ገጽ አልተገኘም።');return;}
+    // Refresh the page's rendered records before copying its visible data.
+    try{
+      if(pageId==='page-dashboard' && typeof window.renderAllComponents==='function')window.renderAllComponents();
+      if(pageId==='page-production' && typeof window.renderProductionTable==='function')window.renderProductionTable();
+      if(pageId==='page-sales' && typeof window.renderSalesTable==='function')window.renderSalesTable();
+      if(pageId==='page-products' && typeof window.renderProductsTable==='function')window.renderProductsTable();
+      if(pageId==='page-stock' && typeof window.renderStockTable==='function')window.renderStockTable();
+    }catch(e){console.warn('Pre-print refresh:',e);}
+
+    const clone=source.cloneNode(true);
+    clone.classList.add('active');
+    clone.querySelectorAll('.no-print, .service-report-tools, button, .btn, .toolbar, .modal, .modal-backdrop').forEach(el=>el.remove());
+    // Preserve live form values where a page contains filters or entered information.
+    const originals=source.querySelectorAll('input,select,textarea');
+    const copies=clone.querySelectorAll('input,select,textarea');
+    originals.forEach((el,i)=>{
+      const cp=copies[i]; if(!cp)return;
+      if(el.tagName==='SELECT') cp.value=el.value;
+      else if(el.type==='checkbox'||el.type==='radio') cp.checked=el.checked;
+      else cp.value=el.value;
+      if(el.tagName==='TEXTAREA')cp.textContent=el.value;
+    });
+    const title=source.querySelector('h2')?.textContent?.trim() || source.id.replace(/^page-/,'').toUpperCase();
+    const css=[...document.querySelectorAll('style,link[rel="stylesheet"]')].map(x=>x.outerHTML).join('\n');
+    const safeTitle=String(title).replace(/[<>]/g,'');
+    const printCss=`
+      html,body{background:#fff!important;color:#111!important;margin:0!important;padding:0!important;font-family:Arial,sans-serif!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+      body{padding:12mm!important}.page{display:block!important;visibility:visible!important;width:100%!important;max-width:none!important;margin:0!important;padding:0!important;background:#fff!important;color:#111!important}
+      .page *{visibility:visible!important}.page .panel,.page .stat,.page .table-wrap{break-inside:avoid-page;box-shadow:none!important}
+      .page .table-wrap{overflow:visible!important}.page table{width:100%!important;min-width:0!important;border-collapse:collapse!important}
+      .page th,.page td{color:#111!important;border:1px solid #bbb!important;padding:6px!important;font-size:10pt!important}
+      .page h1,.page h2,.page h3,.page h4,.page p,.page span,.page small,.page strong,.page label{color:#111!important}
+      .page .panel,.page .stat{background:#fff!important;border:1px solid #bbb!important;color:#111!important}
+      .page svg{max-width:100%!important}.page img{max-width:100%!important}
+      .no-print,button,.btn,.toolbar,.service-report-tools{display:none!important}
+      @page{size:auto;margin:12mm}
+    `;
+    const doc='<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">'+css+'<title>'+safeTitle+'</title><style>'+printCss+'</style></head><body><h1 style="font-size:18pt;margin:0 0 12px;color:#111">'+safeTitle+'</h1>'+clone.outerHTML+'</body></html>';
+    const frame=document.createElement('iframe');
+    frame.setAttribute('aria-hidden','true');
+    frame.style.cssText='position:fixed;right:0;bottom:0;width:1px;height:1px;border:0;opacity:0;pointer-events:none;';
+    document.body.appendChild(frame);
+    let cleaned=false;
+    const cleanup=()=>{if(cleaned)return;cleaned=true;setTimeout(()=>frame.remove(),300);};
+    frame.onload=()=>setTimeout(()=>{
+      try{frame.contentWindow.focus();frame.contentWindow.onafterprint=cleanup;frame.contentWindow.print();setTimeout(cleanup,2500);}
+      catch(e){console.error('Print failed',e);cleanup();alert(activeLang()==='en'?'Could not open the print dialog. Please try again.':'ፕሪንት መክፈት አልተቻለም። እባክዎ እንደገና ይሞክሩ።');}
+    },500);
+    frame.srcdoc=doc;
+  }
+
+  window.printServiceReport=printServiceReport;
+  window.printCurrentPage=function(){const active=document.querySelector('.page.active');if(active)printServiceReport(active.id);};
+  window.injectServiceTools=addPagePrintButtons;
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(addPagePrintButtons,250));
+  else setTimeout(addPagePrintButtons,250);
+  // Also cover feature pages that are created dynamically after the app loads.
+  const observer=new MutationObserver(()=>{const pages=[...document.querySelectorAll('.page[id^="page-"]')];if(pages.some(p=>!p.querySelector(':scope > .service-report-tools[data-print-v2="1"]')))addPagePrintButtons();});
+  observer.observe(document.body,{childList:true,subtree:true});
+})();
+</script>
 </body>
 </html>
 
@@ -5761,7 +5854,7 @@ const observer=new MutationObserver(()=>setupSupport());observer.observe(documen
   set('dashStockCost',money(t.stockValue));set('dashStockCostKg',t.stockKg.toLocaleString(undefined,{maximumFractionDigits:2})+' Kg');
   const note=document.querySelector('#page-dashboard [data-i18n="st_net_sub"]');if(note)note.textContent='የተጣራ ትርፍ = የሽያጭ ገቢ − የተሸጠ እቃ ወጪ − የኦፕሬሽን ወጪ';
   // Keep the Platinum Plus product-analysis profit semantically correct: sale-level gross profit less operating expenses.
-  const kpis=$('sgcProductKpis');if(kpis){const cards=[...kpis.querySelectorAll('.sgc-dash-kpi')];for(const card of cards){const label=card.querySelector('small')?.textContent||'';if(label.includes('ሽያጭ ትርፍ')||label.toLowerCase().includes('sales profit')){const strong=card.querySelector('strong');const em=card.querySelector('em');if(strong)strong.textContent=money(t.salesProfit);if(em)em.textContent='ከተሸጡት እቃዎች የተመዘገበ ትርፍ ብቻ';}}}
+  const kpis=$('sgcProductKpis');if(kpis){const cards=[...kpis.querySelectorAll('.sgc-dash-kpi')];for(const card of cards){const label=card.querySelector('small')?.textContent||'';if(label.includes('ሽያጭ ትርፍ')||label.toLowerCase().includes('sales profit')){const strong=card.querySelector('strong');const em=card.querySelector('em');if(strong)strong.textContent=money(t.salesProfit-t.operating);if(em)em.textContent='የተመዘገበ የሽያጭ ትርፍ − የኦፕሬሽን ወጪ';}}}
   return t;
  }catch(e){console.warn('SGC dashboard audit refresh failed',e);return null;}}
  window.sgcDashboardAuditTotals=totals;window.sgcDashboardAuditRefresh=refresh;
